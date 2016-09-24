@@ -11,6 +11,7 @@
     "newtab": "./static/index.html"
   },
   "permissions": [
-   "activeTab"
+    "activeTab",
+    "http://app.readscripture.org/*"
    ]
 }
