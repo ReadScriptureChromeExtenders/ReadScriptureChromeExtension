@@ -2602,5 +2602,7 @@ p {
   margin-bottom: 32px; }
 
 .container {
-  max-width: 620px;
+  width: 632px;
+  padding-left: 24px;
+  padding-right: 24px;
   margin: 0 auto; }
