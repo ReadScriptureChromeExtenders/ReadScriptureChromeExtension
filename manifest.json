@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "Read Scripture Extension",
+  "description": "This extension will present bible scripture when opening a new tab",
+  "version": "3.1.4",
+  "background": {
+
+  },
+  "chrome_url_overrides": {
+    "newtab": "./static/index.html"
+  },
+  "permissions": [
+   "activeTab"
+   ]
+}
