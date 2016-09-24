@@ -1,19 +1,65 @@
-const CHAPTER = document.getElementById('chapter');
-const VERSE = document.getElementById('verse');
 
-const getExodus = () => {
-  fetch('http://app.readscripture.org/api/exodus.json')
+// Get schedule
+
+// Check date against schedule and get required verses
+
+// Get verse text data and translate to HTML
+
+const getBookText = ({book, startChapter, endChapter}) => {
+  fetch(`http://app.readscripture.org/api/${book}.json`)
   .then(res => res.json())
   .then(bookText => {
     console.log(bookText);
-    CHAPTER.textContent = bookText.book + bookText.chapters[0].chapterNum;
-    verseArray = bookText.chapters[0].verses.map(verseObj => verseObj.chardata);
-    VERSE.textContent = verseArray.join(' ');
+    relevantChapters = bookText.chapters.slice(startChapter - 1, endChapter);
+
+    // Create chapter range header
+    const chapterRange = document.createElement('h1');
+    chapterRange.setAttribute('id', 'chapterRange');
+    chapterRange.textContent = `${book} ${startChapter} - ${endChapter}`;
+
+    // Create chapter header and text for each chapter
+    for (let i = 0, chaptersLen = relevantChapters.length; i < chaptersLen; i++) {
+      const chapterDiv = document.createElement('div');
+      // Create chapter header
+      const chapterHeader = document.createElement('h2');
+      chapterHeader.setAttribute('class', 'chapterHeader');
+      chapterHeader.textContent = `Chapter ${startChapter}`;
+      chapterDiv.appendChild(chapterHeader);
+
+      // Create chapter text div
+      const chapterText = document.createElement('div');
+
+      const chapterVerseArray = chapterRange[i].verses;
+      for (let j = 0, versesLen = chapterVerseArray.length; j < versesLen; j++) {
+
+        // Create verse container span
+        const verseContainer = document.createElement('span');
+        verseContainer.setAttribute('class', 'verseContainer');
+
+        // Create verse number
+        const verseNum = document.createElement('sub');
+        verseNum.setAttribute('class', 'verseNum');
+        verseNum.textContent = i + 1;
+
+        // Create verse text
+        const verseText = document.createElement('p');
+        verseText.textContent = chapterVerseArray[j].chardata;
+
+        // Append verse data to verse container
+        verseContainer.appendChild(verseNum);
+        verseContainer.appendChild(verseText);
+      }
+
+      // Append chapter text to chapter div
+      chapterDiv.appendChild(chapterText);
+
+    }
+
+    // Append chapter to content section
+    document.getElementById('content').appendChild(chapterDiv);
+
   }).catch(err => console.error(err))
-}
-
-getExodus();
-
+};
 
 window.api = (function () {
     function Api (els) {
@@ -68,7 +114,9 @@ window.api = (function () {
 		    				};
 		    				if(chapters.length > 1) {
 		    					item.end = chapters[1];
-		    				}
+		    				} else {
+                  item.end = chapters[0];
+                }
 		    				read.push(item);
 		    			break;
 		    			case "watch":
@@ -85,7 +133,9 @@ window.api = (function () {
 		    				};
 		    				if(chapters.length > 1) {
 		    					item.end = chapters[1];
-		    				}
+		    				} else {
+                  item.end = chapters[0];
+                }
 		    				pray.push(item);
 		    			break;
 
@@ -117,3 +167,4 @@ window.api = (function () {
 }());
 
 api.getPlan();
+getBookText(api.getReadArray);
