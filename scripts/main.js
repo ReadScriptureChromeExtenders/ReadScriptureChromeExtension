@@ -23,9 +23,11 @@ window.api = (function () {
     var read = Array();
     var watch = Array();
     var pray = Array();
+    var planDay;
+    var planDayLongForm;
      
     var api = {
-        getDate: function (selector) {
+        calculateDayOfYear: function (selector) {
         	var now = new Date();
 			var start = new Date(now.getFullYear(), 0, 0);
 			var diff = now - start;
@@ -35,9 +37,15 @@ window.api = (function () {
         },
 
 
-        getPlan: function (selector) {
+        getPlan: function (specificDay) {
         	
-       		var url  = 'https://readscripture-api.herokuapp.com/api/v1/days/' + this.getDate();
+        	var day = this.calculateDayOfYear();
+        	if(specificDay) {
+        		day = specificDay;
+        	} 
+        	planDay = day;
+
+       		var url  = 'https://readscripture-api.herokuapp.com/api/v1/days/' + day;
 			  fetch(url)
 			  .then(res => res.json())
 			  .then(daysJSON => {
@@ -46,6 +54,7 @@ window.api = (function () {
         		watch = Array();
         		pray = Array();
 			    var numNodes = daysJSON.dayContents.length;
+			    planDayLongForm = daysJSON.date;
 			    for (var i = 0; i < numNodes; i++) {
 			    	var node = daysJSON.dayContents[i]; 
 		    		switch(node.type) {
@@ -95,6 +104,12 @@ window.api = (function () {
         },   
         getWatchArray: function (selector) {
         	return watch;
+        },   
+        getPlanDay: function (selector) {
+        	return planDay;
+        },   
+        getPlanDayLongForm: function (selector) {
+        	return planDayLongForm;
         },   
     };
      
