@@ -1,0 +1,26 @@
+{
+  "name": "read-scripture-static-asset-build",
+  "preferGlobal": false,
+  "version": "0.0.1",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "~2.5.2",
+    "gulp-ruby-sass": "~0.7.1",
+    "gulp-sass": "^2.0.4",
+    "gulp-typeset": "0.0.1",
+    "gulp-uglify": "~1.1.0",
+    "gulp-util": "^3.0.3"
+  },
+  "dependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "author": "Jesse Fornear",
+  "description": "read scripture static assets",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ReadScriptureChromeExtenders/ReadScriptureChromeExtension.github.com.git"
+  }
+}
