@@ -3,10 +3,13 @@
 @import "animate";
 @import "typography";
 
+$sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
+$serif: 'Cardo', serif;
+
 body {
   font-size: 16px;
   line-height: 24px;
-  font-family: 'Cardo', serif;
+  font-family: $serif;
   color: #4F4E4E;
   transition: all 0.25s;
   text-rendering: optimizeLegibility;
@@ -18,14 +21,14 @@ body {
 
 date {
   position: fixed;
-  top: 32px;
+  top: 24px;
   left: 24px;
   right: 24px;
   margin: 0 auto;
-  text-align: center;
+  text-align: right;
   h4 {
     margin-top: 0;
-    font-size: 11px;
+    font-size: 9px;
     color: #b5b5b5;
     span {
       font-weight: bold;
@@ -40,7 +43,7 @@ header {
   bottom: 0;
   padding: 24px;
   .logo {
-    opacity: .35;
+    opacity: .65;
     cursor: pointer;
   }
   menu {
@@ -71,7 +74,7 @@ header {
         margin-top: 0;
       }
       h1 {
-        margin-bottom: 0;
+        margin-bottom: 16px;
       }
       &:hover {
         h1 {
@@ -106,7 +109,7 @@ h3 {
 h4 {
   font-size: 14px;
   line-height: 16px;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
+  font-family: $sans-serif;
   color: #B5B5B5;
   text-transform: uppercase;
   font-weight: bold;
@@ -117,14 +120,11 @@ h4 {
 h5 {
   font-size: 10px;
   line-height: 10px;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
+  font-family: $sans-serif;
   color: #B5B5B5;
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 8px;
-}
-
-sub {
 }
 
 p {
@@ -133,21 +133,27 @@ p {
   margin-bottom: 32px;
 }
 
-.p {
-  font-size: 22px;
-  line-height: 32px;
-}
-
 main {
   @include clearfix();
 }
 
 .content {
   @include clearfix();
-  width: 632px;
+  width: 680px;
   padding-left: 24px;
   padding-right: 24px;
   margin: 0 auto;
+}
+
+.credits {
+  font-size: 12px;
+  line-height: 16px;
+  color: #b5b5b5;
+  font-family: $sans-serif;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 footer {

@@ -2560,15 +2560,16 @@ input[type=button] {
 
 span.paragraphBreak {
   display: block;
-  margin-bottom: 32px; }
+  margin-bottom: 0; }
 
 span.verseContainer {
   font-size: 22px;
-  line-height: 32px; }
+  line-height: 32px;
+  text-indent: 16px; }
 
 h2.chapterHeader {
   margin-top: 32px;
-  margin-bottom: -32px;
+  margin-bottom: 0;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -2576,12 +2577,18 @@ h2.chapterHeader {
   color: inherit; }
 
 h1.chapterRange {
-  margin-bottom: 96px; }
+  margin-bottom: 88px; }
+
+sup.verseNum {
+  font-size: 14px;
+  padding-right: 8px;
+  color: #b5b5b5;
+  margin-top: -8px; }
 
 body {
   font-size: 16px;
   line-height: 24px;
-  font-family: 'Cardo', serif;
+  font-family: "Cardo", serif;
   color: #4F4E4E;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
@@ -2593,14 +2600,14 @@ body {
 
 date {
   position: fixed;
-  top: 32px;
+  top: 24px;
   left: 24px;
   right: 24px;
   margin: 0 auto;
-  text-align: center; }
+  text-align: right; }
   date h4 {
     margin-top: 0;
-    font-size: 11px;
+    font-size: 9px;
     color: #b5b5b5; }
     date h4 span {
       font-weight: bold; }
@@ -2612,7 +2619,7 @@ header {
   bottom: 0;
   padding: 24px; }
   header .logo {
-    opacity: .35;
+    opacity: .65;
     cursor: pointer; }
   header menu {
     display: none;
@@ -2636,7 +2643,7 @@ header {
     .menu .menu-item a h4 {
       margin-top: 0; }
     .menu .menu-item a h1 {
-      margin-bottom: 0; }
+      margin-bottom: 16px; }
     .menu .menu-item a:hover h1 {
       color: #06c; }
 
@@ -2661,7 +2668,7 @@ h3 {
 h4 {
   font-size: 14px;
   line-height: 16px;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Open Sans", "Helvetica Neue", sans-serif;
   color: #B5B5B5;
   text-transform: uppercase;
   font-weight: bold;
@@ -2671,7 +2678,7 @@ h4 {
 h5 {
   font-size: 10px;
   line-height: 10px;
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Open Sans", "Helvetica Neue", sans-serif;
   color: #B5B5B5;
   text-transform: uppercase;
   font-weight: bold;
@@ -2681,10 +2688,6 @@ p {
   font-size: 22px;
   line-height: 32px;
   margin-bottom: 32px; }
-
-.p {
-  font-size: 22px;
-  line-height: 32px; }
 
 main:before, main:after {
   content: " ";
@@ -2696,7 +2699,7 @@ main:after {
   clear: both; }
 
 .content {
-  width: 632px;
+  width: 680px;
   padding-left: 24px;
   padding-right: 24px;
   margin: 0 auto; }
@@ -2707,6 +2710,15 @@ main:after {
     /* 2 */ }
   .content:after {
     clear: both; }
+
+.credits {
+  font-size: 12px;
+  line-height: 16px;
+  color: #b5b5b5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Open Sans", "Helvetica Neue", sans-serif; }
+  .credits a {
+    color: inherit;
+    text-decoration: none; }
 
 footer {
   position: fixed;

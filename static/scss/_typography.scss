@@ -1,16 +1,17 @@
 span.paragraphBreak {
   display: block;
-  margin-bottom: 32px;
+  margin-bottom: 0;
 }
 
 span.verseContainer {
   font-size: 22px;
   line-height: 32px;
+  text-indent: 16px;
 }
 
 h2.chapterHeader {
   margin-top: 32px;
-  margin-bottom: -32px;
+  margin-bottom: 0;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -19,5 +20,12 @@ h2.chapterHeader {
 }
 
 h1.chapterRange {
-  margin-bottom: 96px;
+  margin-bottom: 88px;
+}
+
+sup.verseNum {
+  font-size: 14px;
+  padding-right: 8px;
+  color: #b5b5b5;
+  margin-top: -8px;
 }

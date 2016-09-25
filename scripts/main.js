@@ -19,7 +19,7 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
   verseContainer.setAttribute('class', 'verseContainer');
 
   // Create verse number and append to verse container
-  const verseNumber = document.createElement('sub');
+  const verseNumber = document.createElement('sup');
   verseNumber.setAttribute('class', 'verseNum');
   verseNumber.textContent = verseNum;
   verseContainer.appendChild(verseNumber);
@@ -262,7 +262,7 @@ window.api = (function () {
             watch = Array();
             pray = Array();
           var numNodes = daysJSON.dayContents.length;
-          planDayLongForm = 'Reading plan for: ' + daysJSON.date;
+          planDayLongForm = 'Reading for ' + daysJSON.date;
           chapterId = daysJSON.chapterId;
 
           for (var i = 0; i < numNodes; i++) {
