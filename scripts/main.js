@@ -21,7 +21,7 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
   // Create verse number and append to verse container
   const verseNumber = document.createElement('sup');
   verseNumber.setAttribute('class', 'verseNum');
-  verseNumber.textContent = ' ' + verseNum + ' ';
+  verseNumber.textContent = '  ' + verseNum + '  ';
   verseContainer.appendChild(verseNumber);
 
   // Create verse text container
