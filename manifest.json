@@ -13,5 +13,8 @@
   "permissions": [
     "activeTab",
     "https://readscripture-api.herokuapp.com/*"
-   ]
+  ],
+  "icons": { "16": "./static/img/chrome-icon-16.png",
+           "48": "./static/img/chrome-icon-48.png",
+          "128": "./static/img/chrome-icon-128.png" }
 }
