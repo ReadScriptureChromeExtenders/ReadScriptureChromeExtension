@@ -2799,5 +2799,17 @@ footer {
   .btn:hover {
     opacity: .9; }
 
+#bookmark {
+  display: inline-block;
+  background: url("/static/img/star_inactive.png");
+  cursor: pointer;
+  height: 15px;
+  width: 16px;
+  background-position-y: 1px; }
+  #bookmark:hover {
+    background: url("/static/img/star_active.png"); }
+  #bookmark.active {
+    background: url("/static/img/star_active.png"); }
+
 .hide {
   display: none; }
