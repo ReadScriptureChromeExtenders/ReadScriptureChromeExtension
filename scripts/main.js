@@ -123,8 +123,7 @@ window.api = (function () {
 			  return fetch(url)
 			  .then(res => res.json())
 			  .then(chapterJSON => {
-			  	chapterName = chapterJSON.title;
-			  	document.getElementById('chapterName').innerHTML = api.getChapterName();
+			  	chapterName = chapterJSON.title;			  	
 			  }
 			  ).catch(err => console.error(err))
         },
@@ -241,20 +240,27 @@ function jumpTo(day) {
         	document.getElementById('read').innerHTML = '';
         	document.getElementById('watch').innerHTML = '';
         	document.getElementById('pray').innerHTML = '';
+        	var footerNav = document.getElementById("footer-nav");
+        	footerNav.className = ""
         }
         	)
         .then(() => {
         	renderWatchText(api.getWatchArray());
         	getBookText(api.getReadArray());
-        	api.getChapter(api.getChapterId());
+        	api.getChapter(api.getChapterId())
+        	.then(() => {
+        		document.getElementById('chapterName').innerHTML = api.getChapterName();
+        	});;
         	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();        	
-        });
+        })        
 }
 
 
-footerNav = document.getElementById("footer-nav");
 
-var showFooter = function() {
+
+
+function showFooter () {
+  var footerNav = document.getElementById("footer-nav");
   var y = window.scrollY;
   var contentHeight = document.getElementsByTagName('body')[0].clientHeight;
   var windowHeight = window.innerHeight;
