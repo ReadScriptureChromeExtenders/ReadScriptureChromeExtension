@@ -5,17 +5,18 @@
 
 // Get verse text data and translate to HTML
 
-const getBookText = ({book, startChapter, endChapter}) => {
-  fetch(`http://app.readscripture.org/api/${book}.json`)
+const getBookText = ({book, start, end}) => {
+  console.log(book, start, end);
+  fetch(`http://app.readscripture.org/api/${book.toLowerCase()}.json`)
   .then(res => res.json())
   .then(bookText => {
-    console.log(bookText);
-    relevantChapters = bookText.chapters.slice(startChapter - 1, endChapter);
+
+    relevantChapters = bookText.chapters.slice(start - 1, end);
 
     // Create chapter range header
     const chapterRange = document.createElement('h1');
     chapterRange.setAttribute('id', 'chapterRange');
-    chapterRange.textContent = `${book} ${startChapter} - ${endChapter}`;
+    chapterRange.textContent = `${book} ${start} - ${end}`;
 
     // Create chapter header and text for each chapter
     for (let i = 0, chaptersLen = relevantChapters.length; i < chaptersLen; i++) {
@@ -23,13 +24,13 @@ const getBookText = ({book, startChapter, endChapter}) => {
       // Create chapter header
       const chapterHeader = document.createElement('h2');
       chapterHeader.setAttribute('class', 'chapterHeader');
-      chapterHeader.textContent = `Chapter ${startChapter}`;
+      chapterHeader.textContent = `Chapter ${start + i}`;
       chapterDiv.appendChild(chapterHeader);
 
       // Create chapter text div
-      const chapterText = document.createElement('div');
+      const chapterContainer = document.createElement('div');
 
-      const chapterVerseArray = chapterRange[i].verses;
+      const chapterVerseArray = relevantChapters[i].verses;
       for (let j = 0, versesLen = chapterVerseArray.length; j < versesLen; j++) {
 
         // Create verse container span
@@ -39,7 +40,7 @@ const getBookText = ({book, startChapter, endChapter}) => {
         // Create verse number
         const verseNum = document.createElement('sub');
         verseNum.setAttribute('class', 'verseNum');
-        verseNum.textContent = i + 1;
+        verseNum.textContent = j + 1;
 
         // Create verse text
         const verseText = document.createElement('p');
@@ -48,11 +49,14 @@ const getBookText = ({book, startChapter, endChapter}) => {
         // Append verse data to verse container
         verseContainer.appendChild(verseNum);
         verseContainer.appendChild(verseText);
+
+        // Append verse container to chapter container
+        chapterContainer.appendChild(verseContainer);
       }
 
-      // Append chapter text to chapter div
-      chapterDiv.appendChild(chapterText);
-
+      // Append chapter container to chapter div
+      chapterDiv.appendChild(chapterContainer);
+      document.body.appendChild(chapterDiv);
     }
 
     // Append chapter to content section
@@ -92,7 +96,7 @@ window.api = (function () {
         	planDay = day;
 
        		var url  = 'https://readscripture-api.herokuapp.com/api/v1/days/' + day;
-			  fetch(url)
+			  return fetch(url)
 			  .then(res => res.json())
 			  .then(daysJSON => {
 			    console.log(daysJSON);
@@ -146,11 +150,11 @@ window.api = (function () {
 	        },
 
         getReadArray: function (selector) {
-        	return read;
+        	return read[0];
         },   
 
         getPrayArray: function (selector) {
-        	return pray;
+        	return pray[0];
         },   
         getWatchArray: function (selector) {
         	return watch;
@@ -166,5 +170,5 @@ window.api = (function () {
     return api;
 }());
 
-api.getPlan();
-getBookText(api.getReadArray);
+api.getPlan()
+.then(() => getBookText(api.getReadArray()));
