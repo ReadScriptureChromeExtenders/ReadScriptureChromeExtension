@@ -146,11 +146,13 @@ const getBookText = (section, passage) => {
       const chapterDiv = document.createElement('div');
 
       // Create chapter header
-      const chapterNumberHeader = document.createElement('h2');
-      chapterNumberHeader.setAttribute('class', 'chapterNumberHeader');
-      chapterNumberHeader.textContent = `Chapter ${bookText[i].chapterNum}`;
-      chapterDiv.appendChild(chapterNumberHeader);
-
+      if(bookText[i].chapterNum) {
+      	const chapterNumberHeader = document.createElement('h2');
+      	chapterNumberHeader.setAttribute('class', 'chapterNumberHeader');
+      	chapterNumberHeader.textContent = `Chapter ${bookText[i].chapterNum}`;
+      	chapterDiv.appendChild(chapterNumberHeader);	
+      }
+      
       // Create chapter text div
       const chapterContainer = document.createElement('div');
 
