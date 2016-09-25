@@ -47,22 +47,22 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
         case "beginDoubleQuote":
           verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'beginDoubleQuote');
-          verseChunk.textContent = '"';
+          verseChunk.textContent = '\u201C';
           break;
         case "endDoubleQuote":
           verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'endDoubleQuote');
-          verseChunk.textContent = '"';
+          verseChunk.textContent = '\u201D';
           break;
         case "beginSingleQuote":
           verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'beginSingleQuote');
-          verseChunk.textContent = '\'';
+          verseChunk.textContent = '\u2018';
           break;
         case "endSingleQuote":
           verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'endSingleQuote');
-          verseChunk.textContent = '\'';
+          verseChunk.textContent = '\u2019';
           break;
         case "endLine":
           verseChunk = document.createElement('span');
