@@ -198,9 +198,9 @@ var showFooter = function() {
   var windowHeight = window.innerHeight;
 
   if (y >= (contentHeight - windowHeight)) {
-    footerNav.className = "animated fadeInUp show"
+    footerNav.className = "show"
   } else {
-    footerNav.className = "animated fadeInUp"
+    footerNav.className = ""
   }
 };
 
