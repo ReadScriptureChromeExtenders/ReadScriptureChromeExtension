@@ -1,17 +1,69 @@
-const CHAPTER = document.getElementById('chapter');
-const VERSE = document.getElementById('verse');
 
-const getExodus = () => {
-  fetch('http://app.readscripture.org/api/exodus.json')
+// Get schedule
+
+// Check date against schedule and get required verses
+
+// Get verse text data and translate to HTML
+
+const getBookText = ({book, start, end}) => {
+  console.log(book, start, end);
+  fetch(`http://app.readscripture.org/api/${book.toLowerCase()}.json`)
   .then(res => res.json())
   .then(bookText => {
-    CHAPTER.textContent = bookText.book + bookText.chapters[0].chapterNum;
-    verseArray = bookText.chapters[0].verses.map(verseObj => verseObj.chardata);
-    VERSE.textContent = verseArray.join(' ');
-  }).catch(err => console.error(err))
-}
 
-getExodus();
+    relevantChapters = bookText.chapters.slice(start - 1, end);
+
+    // Create chapter range header
+    const chapterRange = document.createElement('h1');
+    chapterRange.setAttribute('id', 'chapterRange');
+    chapterRange.textContent = `${book} ${start} - ${end}`;
+
+    // Create chapter header and text for each chapter
+    for (let i = 0, chaptersLen = relevantChapters.length; i < chaptersLen; i++) {
+      const chapterDiv = document.createElement('div');
+      // Create chapter header
+      const chapterHeader = document.createElement('h2');
+      chapterHeader.setAttribute('class', 'chapterHeader');
+      chapterHeader.textContent = `Chapter ${start + i}`;
+      chapterDiv.appendChild(chapterHeader);
+
+      // Create chapter text div
+      const chapterContainer = document.createElement('div');
+
+      const chapterVerseArray = relevantChapters[i].verses;
+      for (let j = 0, versesLen = chapterVerseArray.length; j < versesLen; j++) {
+
+        // Create verse container span
+        const verseContainer = document.createElement('span');
+        verseContainer.setAttribute('class', 'verseContainer');
+
+        // Create verse number
+        const verseNum = document.createElement('sub');
+        verseNum.setAttribute('class', 'verseNum');
+        verseNum.textContent = j + 1;
+
+        // Create verse text
+        const verseText = document.createElement('p');
+        verseText.textContent = chapterVerseArray[j].chardata;
+
+        // Append verse data to verse container
+        verseContainer.appendChild(verseNum);
+        verseContainer.appendChild(verseText);
+
+        // Append verse container to chapter container
+        chapterContainer.appendChild(verseContainer);
+      }
+
+      // Append chapter container to chapter div
+      chapterDiv.appendChild(chapterContainer);
+      document.body.appendChild(chapterDiv);
+    }
+
+    // Append chapter to content section
+    document.getElementById('content').appendChild(chapterDiv);
+
+  }).catch(err => console.error(err))
+};
 
 /*refresh the view
 function render() {
@@ -20,6 +72,7 @@ function render() {
 	for(var i = 0)
 }
 */
+
 
 window.api = (function () {
     function Api (els) {
@@ -52,9 +105,10 @@ window.api = (function () {
         	planDay = day;
 
        		var url  = 'https://readscripture-api.herokuapp.com/api/v1/days/' + day;
-			  fetch(url)
+			  return fetch(url)
 			  .then(res => res.json())
 			  .then(daysJSON => {
+			    console.log(daysJSON);
 			    read = Array();
         		watch = Array();
         		pray = Array();
@@ -78,7 +132,9 @@ window.api = (function () {
 		    				};
 		    				if(chapters.length > 1) {
 		    					item.end = chapters[1];
-		    				}
+		    				} else {
+                  item.end = chapters[0];
+                }
 		    				read.push(item);
 		    			break;
 		    			case "watch":
@@ -100,7 +156,9 @@ window.api = (function () {
 		    				};
 		    				if(chapters.length > 1) {
 		    					item.end = chapters[1];
-		    				}
+		    				} else {
+                  item.end = chapters[0];
+                }
 		    				pray.push(item);
 		    			break;
 
@@ -111,11 +169,11 @@ window.api = (function () {
 	        },
 
         getReadArray: function (selector) {
-        	return read;
+        	return read[0];
         },   
 
         getPrayArray: function (selector) {
-        	return pray;
+        	return pray[0];
         },   
         getWatchArray: function (selector) {
         	return watch;
@@ -131,7 +189,8 @@ window.api = (function () {
     return api;
 }());
 
-api.getPlan();
+api.getPlan()
+.then(() => getBookText(api.getReadArray()));
 
 
 /****** event listeners ******/
@@ -148,4 +207,3 @@ document.addEventListener('DOMContentLoaded', function() {
         //render();
     });
 });
-
