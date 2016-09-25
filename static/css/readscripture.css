@@ -2571,10 +2571,47 @@ body {
   background: #ffffff;
   padding-bottom: 144px; }
 
+date {
+  position: absolute;
+  top: 24px;
+  right: 24px; }
+  date h4 {
+    margin-top: 0; }
+
 header {
   position: fixed;
-  top: 24px;
-  left: 24px; }
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 24px;
+  cursor: pointer; }
+  header .logo {
+    opacity: .5; }
+  header menu {
+    display: none;
+    -webkit-transition: all .3s;
+    transition: all .3s; }
+  header:hover .logo {
+    opacity: 1; }
+  header:hover menu {
+    display: block;
+    -webkit-transition: all .3s;
+    transition: all .3s; }
+
+.menu {
+  margin-top: 24px; }
+  .menu .menu-item a {
+    display: block;
+    padding: 32px 0 8px;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer; }
+    .menu .menu-item a h4 {
+      margin-top: 0; }
+    .menu .menu-item a h1 {
+      margin-bottom: 0; }
+    .menu .menu-item a:hover h1 {
+      color: #06c; }
 
 h1 {
   font-weight: bold;
@@ -2589,6 +2626,11 @@ h2 {
   font-style: italic;
   margin-bottom: 8px; }
 
+h3 {
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 32px; }
+
 h4 {
   font-size: 14px;
   line-height: 16px;
@@ -2599,8 +2641,14 @@ h4 {
   margin-bottom: 16px;
   margin-top: 114px; }
 
-sub {
-  display: inherit; }
+h5 {
+  font-size: 10px;
+  line-height: 10px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
+  color: #B5B5B5;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 8px; }
 
 p {
   font-size: 22px;
@@ -2611,22 +2659,27 @@ p {
   font-size: 22px;
   line-height: 32px; }
 
-.container {
+main:before, main:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */ }
+
+main:after {
+  clear: both; }
+
+.content {
   width: 632px;
   padding-left: 24px;
   padding-right: 24px;
   margin: 0 auto; }
-  .container:before, .container:after {
+  .content:before, .content:after {
     content: " ";
     /* 1 */
     display: table;
     /* 2 */ }
-  .container:after {
+  .content:after {
     clear: both; }
-
-  .hide {
-    display: none;
-  }
 
 footer {
   position: fixed;
@@ -2673,6 +2726,5 @@ footer {
   border-radius: 2px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2); }
 
-@media screen and (max-width: 740px) {
-  header {
-    position: relative; } }
+.hide {
+  display: none; }

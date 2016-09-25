@@ -6,25 +6,61 @@
   <link rel="stylesheet" href="css/readscripture.css">
 </head>
 <body>
+  <date>
+    <h4 id="dayLongForm"></h4>
+  </date>
   <header>
-    <a href="http://readscripture.org/" target="_blank">
-      <img src="img/readscripture.png" srcset="img/readscripture.png 1x, img/readscripture@2x.png 2x" width="32" height="27" />
-    </a>
+    <div class="logo">
+      <img src="img/readscripture.png" srcset="img/readscripture.png 1x, img/readscripture@2x.png 2x" width="32" height="27" />    
+    </div>
     <div id="dayLongForm" class="content"></div>
     <div id="chapterName" class="content"></div>
+    <menu>
+      <ul class="menu">
+        <li class="menu-item">
+          <a href="#watch">
+            <h4>Watch</h4>
+            <h1>How to Read the Bible</h1>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#read">
+            <h4>Read</h4>
+            <h1>Genesis 1-3</h1>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#pray">
+            <h4>Pray</h4>
+            <h1>Psalm 1</h1>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#watch">
+            <h4>Watch</h4>
+            <h1>Related Video: Heaven and Earth</h1>
+          </a>
+        </li>
+      </ul>
+    </menu>
   </header>
   <main>
-    <div class="container">
+    <div class="content">
       <h4 id="watch-header">Watch</h4>
-      <div id="watch" class="content"></div>
+      <div id="watch">
+      </div>
+
       <h4>Read</h4>
-      <div id="read" class="content"></div>
-	  <h4>Pray</h4>
-      <div id="pray" class="content"></div>
+      <div id="read">
+      </div>
+
+      <h4>Pray</h4>
+      <div id="pray">
+      </div>
     </div>
   </main>
   <footer id="footer-nav">
-  	<div id="picker-previous">
+    <div id="picker-previous">
   	</div>
   	<div id="picker-next">
   		<a class="btn" href="javascript:void(0);" onclick="api.getPlan(api.getPlanDay() + 1);">Next</a>
