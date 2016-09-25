@@ -6,10 +6,11 @@
   <link rel="stylesheet" href="css/readscripture.css">
 </head>
 <body>
-  <div class="header">
+  <header>
     <a href="http://readscripture.org/" target="_blank">
       <img src="img/readscripture.png" srcset="img/readscripture.png 1x, img/readscripture@2x.png 2x" width="32" height="27" />
     </a>
+	</header>
   </div>
   <div class="main">
 	<div id="watch" class="content"></div>
@@ -17,14 +18,13 @@
   	<div id="pray" class="content"></div>
   </div>	
   </div>
-  <div class="controls">
-	<div id="picker-previous">
-		previous
-	</div>
-	<div id="picker-next" onclick="api.getPlan(api.getPlanDay() + 1);">
-		next
-	</div>
-  </div>
+  <footer id="footer-nav" class="animated fadeInUp">
+  	<div id="picker-previous">
+  	</div>
+  	<div id="picker-next">
+  		<a>Next</a>
+  	</div>
+  </footer>
   <script src="/../scripts/main.js"></script>
 </body>
 </html>
