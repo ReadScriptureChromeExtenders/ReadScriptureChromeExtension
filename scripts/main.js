@@ -171,7 +171,7 @@ const getBookText = (section, passage) => {
 
 function renderWatchText(watchArray) {
   var watchDiv = document.getElementById('watch');
-  var watchMenuDiv = document.getElementById('menu-item-watch');
+  // var watchMenuDiv = document.getElementById('menu-item-watch');
   var numWatches = watchArray.length;
   for(var i = 0; i < numWatches; i++ ) {
 
@@ -194,21 +194,22 @@ function renderWatchText(watchArray) {
     watchDiv.appendChild(video);
 
     //menu content
-    var mtitle = document.createElement('h1');
-    mtitle.textContent = watchArray[i].title;
-    watchMenuDiv.appendChild(mtitle);
+    // var mAnchor = document.createElement('a');
+    // var mtitle = document.createElement('h1');
+    // mtitle.textContent = watchArray[i].title;
+    // watchMenuDiv.appendChild(mtitle);
   }
 
   //most days don't have videos
-  var header = document.getElementById('watch-header');
-  var menuheader = document.getElementById('menu-item-watch-header');
-  if(numWatches == 0) {
-    header.setAttribute('class','hide');
-    menuheader.setAttribute('class','hide');
-  } else {
-    header.setAttribute('class','');
-    menuheader.setAttribute('class','');
-  }
+//   var header = document.getElementById('watch-header');
+//   var menuheader = document.getElementById('menu-item-watch-header');
+//   if(numWatches == 0) {
+//     header.setAttribute('class','hide');
+//     menuheader.setAttribute('class','hide');
+//   } else {
+//     header.setAttribute('class','');
+//     menuheader.setAttribute('class','');
+//   }
 }
 
 window.api = (function () {
@@ -269,13 +270,17 @@ window.api = (function () {
             switch(node.type) {
               case "read":
                 read = node.passage;
+                document.getElementById('menu-header-Read-Title').textContent = node.passage;
               break;
               case "watch":
                 watch.push(node);
+                document.getElementById('menu-header-Watch').textContent = "Watch";
+                document.getElementById('menu-header-Watch-Title').textContent = node.passage;
                 break;
               break;
               case "pray":
                 pray = node.passage;
+                document.getElementById('menu-header-Pray-Title').textContent = node.passage;
               break;
 
               default:
@@ -321,7 +326,7 @@ function jumpTo(day) {
       document.getElementById('read').innerHTML = '';
       document.getElementById('watch').innerHTML = '';
       document.getElementById('pray').innerHTML = '';
-      document.getElementById('menu-item-watch').innerHTML = '';
+      // document.getElementById('menu-item-watch').innerHTML = '';
       var footerNav = document.getElementById("footer-nav");
       footerNav.className = ""
     }
