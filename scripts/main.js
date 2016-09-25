@@ -181,8 +181,8 @@ function renderWatchText(watchArray) {
     // we get back a direct url instead of an embed url which doesn't work in this context
     var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
     iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
-    iframe.setAttribute('width', '720');
-    iframe.setAttribute('height', '480');
+    iframe.setAttribute('width', '632');
+    iframe.setAttribute('height', '421');
     video.appendChild(iframe);
     var desc = document.createElement('p');
     desc.textContent = watchArray[i].watchDesc;
@@ -331,6 +331,12 @@ function jumpTo(day) {
       renderWatchText(api.getWatchArray());
       getBookText('read', api.getReadArray());
       getBookText('pray', api.getPrayArray());
+      var bookmark = document.getElementById("bookmark");
+      if (api.getPlanDay() == localStorage[DAYBOOKMARK]) {
+      	bookmark.className = 'active';
+      } else {
+      	bookmark.className = '';
+      }
       api.getChapter(api.getChapterId())
       .then(() => {
         document.getElementById('chapterName').innerHTML = api.getChapterName();
@@ -363,7 +369,11 @@ function hideDate() {
   }
 };
 
-jumpTo();
+/****** load page ******/
+
+const DAYBOOKMARK = 'daybookmark';
+
+jumpTo(localStorage[DAYBOOKMARK]);
 
 /****** event listeners ******/
 document.addEventListener('DOMContentLoaded', function() {
@@ -372,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var header = document.getElementById('header');
     var logo = document.getElementById('logo');
     var footerNav = document.getElementById("footer-nav");
+    var bookmark = document.getElementById("bookmark");
 
     previous.addEventListener('click', function() {
       jumpTo(api.getPlanDay() - 1);
@@ -381,6 +392,19 @@ document.addEventListener('DOMContentLoaded', function() {
     next.addEventListener('click', function() {
         jumpTo(api.getPlanDay() + 1);
         header.className = '';
+    });
+
+    bookmark.addEventListener('click', function() {
+        if (!localStorage[DAYBOOKMARK]) {
+        	localStorage[DAYBOOKMARK] = api.getPlanDay();
+        } else {
+        	localStorage.removeItem(DAYBOOKMARK);
+        }
+        if (bookmark.className == 'active') {
+        	bookmark.className = '';
+        } else {
+        	bookmark.className = 'active';
+        }
     });
 
     logo.addEventListener('click', function() {
