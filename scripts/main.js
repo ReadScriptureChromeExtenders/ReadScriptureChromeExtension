@@ -146,7 +146,7 @@ window.api = (function () {
         		watch = Array();
         		pray = Array();
 			    var numNodes = daysJSON.dayContents.length;
-			    planDayLongForm = daysJSON.date;
+			    planDayLongForm = 'Reading plan for: ' + daysJSON.date;
 			    chapterId = daysJSON.chapterId;			    
 
 			    for (var i = 0; i < numNodes; i++) {
