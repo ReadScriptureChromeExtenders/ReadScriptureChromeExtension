@@ -48,7 +48,7 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
     } else if (content[i].class === "indent") {
       verseChunk.setAttribute('class', 'indent');
       verseChunk.textContent = '\t';
-      
+
 
     } else {
       switch(content[i].type) {
