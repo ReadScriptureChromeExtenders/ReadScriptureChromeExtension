@@ -221,6 +221,8 @@ function jumpTo(day) {
         .then(() => {
         	renderWatchText(api.getWatchArray());
         	getBookText(api.getReadArray());
+        	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
+
         });
 }
 
@@ -239,11 +241,7 @@ var showFooter = function() {
   }
 };
 
-api.getPlan()
-.then(() => {
-	renderWatchText(api.getWatchArray());
-	getBookText(api.getReadArray());
-});
+jumpTo();
 
 
 /****** event listeners ******/
