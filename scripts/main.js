@@ -105,6 +105,8 @@ window.api = (function () {
     var pray = Array();
     var planDay;
     var planDayLongForm;
+    var chapterId;
+    var chapterName;
 
     var api = {
         calculateDayOfYear: function (selector) {
@@ -116,6 +118,16 @@ window.api = (function () {
 			return day;
         },
 
+        getChapter: function (chapterId) {
+        	var url  = 'https://readscripture-api.herokuapp.com/api/v1/chapters/' + chapterId;
+			  return fetch(url)
+			  .then(res => res.json())
+			  .then(chapterJSON => {
+			  	chapterName = chapterJSON.title;
+			  	document.getElementById('chapterName').innerHTML = api.getChapterName();
+			  }
+			  ).catch(err => console.error(err))
+        },
 
         getPlan: function (specificDay) {
 
@@ -135,6 +147,8 @@ window.api = (function () {
         		pray = Array();
 			    var numNodes = daysJSON.dayContents.length;
 			    planDayLongForm = daysJSON.date;
+			    chapterId = daysJSON.chapterId;			    
+
 			    for (var i = 0; i < numNodes; i++) {
 			    	var node = daysJSON.dayContents[i];
 		    		switch(node.type) {
@@ -205,14 +219,22 @@ window.api = (function () {
         getPlanDayLongForm: function (selector) {
         	return planDayLongForm;
         },
+        getChapterName: function (selector) {
+        	return chapterName;
+        },
+        getChapterId: function (selector) {
+        	return chapterId;
+        }
     };
 
     return api;
 }());
 
 function jumpTo(day) {
-	if (day < 1 || day > 365) {
+	if (day > 365) {
 		day = 1;
+	} else if (day < 0) {
+		day = 365;
 	}
 	api.getPlan(day)
         .then(() => {
@@ -224,8 +246,8 @@ function jumpTo(day) {
         .then(() => {
         	renderWatchText(api.getWatchArray());
         	getBookText(api.getReadArray());
-        	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
-
+        	api.getChapter(api.getChapterId());
+        	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();        	
         });
 }
 
