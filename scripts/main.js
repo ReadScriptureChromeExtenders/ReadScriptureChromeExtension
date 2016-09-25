@@ -1,5 +1,4 @@
 const handleChapterHeading = (headingText, parentNode) => {
-  console.log("this > ", parentNode);
   const chapterHeader = document.createElement('h2');
   chapterHeader.setAttribute('class', 'chapterHeader');
   chapterHeader.textContent = headingText;
@@ -13,7 +12,6 @@ const handleChapterParagraphBreak = parentNode => {
 };
 
 const handleChapterVerse = ({verseNum, content}, parentNode) => {
-  console.log(verseNum, content);
   // Create verse container span
   const verseContainer = document.createElement('span');
   verseContainer.setAttribute('class', 'verseContainer');
@@ -114,11 +112,9 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
 };
 
 const getBookText = (section, passage) => {
-  console.log(section, passage);
   fetch(`https://readscripture-api.herokuapp.com/api/v1/passage?search=${passage}`)
   .then(res => res.json())
   .then(bookText => {
-    console.log(bookText);
     const sectionDiv = document.getElementById(section);
 
     // Create chapter range header
@@ -171,7 +167,7 @@ const getBookText = (section, passage) => {
 
 function renderWatchText(watchArray) {
   var watchDiv = document.getElementById('watch');
-  // var watchMenuDiv = document.getElementById('menu-item-watch');
+  var watchMenuH1 = document.getElementById('menu-header-Watch-Title');
   var numWatches = watchArray.length;
   for(var i = 0; i < numWatches; i++ ) {
 
@@ -194,22 +190,22 @@ function renderWatchText(watchArray) {
     watchDiv.appendChild(video);
 
     //menu content
-    // var mAnchor = document.createElement('a');
-    // var mtitle = document.createElement('h1');
-    // mtitle.textContent = watchArray[i].title;
-    // watchMenuDiv.appendChild(mtitle);
+    watchMenuH1.textContent = watchArray[i].title;
   }
 
   //most days don't have videos
-//   var header = document.getElementById('watch-header');
-//   var menuheader = document.getElementById('menu-item-watch-header');
-//   if(numWatches == 0) {
-//     header.setAttribute('class','hide');
-//     menuheader.setAttribute('class','hide');
-//   } else {
-//     header.setAttribute('class','');
-//     menuheader.setAttribute('class','');
-//   }
+  var header = document.getElementById('watch-header');
+  var menuHeader = document.getElementById('menu-header-Watch-Title');
+  var menuTitle = document.getElementById('menu-header-Watch');
+  if(numWatches == 0) {
+    header.setAttribute('class','hide');
+    menuHeader.setAttribute('class','hide');
+    menuTitle.setAttribute('class','hide');
+  } else {
+    header.setAttribute('class','');
+    menuHeader.setAttribute('class','');
+    menuTitle.setAttribute('class','');
+  }
 }
 
 window.api = (function () {
