@@ -12,7 +12,6 @@
   },
   "permissions": [
     "activeTab",
-    "http://app.readscripture.org/*",
     "https://readscripture-api.herokuapp.com/*"
    ]
 }
