@@ -16,7 +16,7 @@ getExodus();
 
 window.api = (function () {
     function Api (els) {
-         
+
     }
 
     var read = Array();
@@ -24,7 +24,7 @@ window.api = (function () {
     var pray = Array();
     var planDay;
     var planDayLongForm;
-     
+
     var api = {
         calculateDayOfYear: function (selector) {
         	var now = new Date();
@@ -37,11 +37,11 @@ window.api = (function () {
 
 
         getPlan: function (specificDay) {
-        	
+
         	var day = this.calculateDayOfYear();
         	if(specificDay) {
         		day = specificDay;
-        	} 
+        	}
         	planDay = day;
 
        		var url  = 'https://readscripture-api.herokuapp.com/api/v1/days/' + day;
@@ -54,7 +54,7 @@ window.api = (function () {
 			    var numNodes = daysJSON.dayContents.length;
 			    planDayLongForm = daysJSON.date;
 			    for (var i = 0; i < numNodes; i++) {
-			    	var node = daysJSON.dayContents[i]; 
+			    	var node = daysJSON.dayContents[i];
 		    		switch(node.type) {
 		    			case "read":
 		    				var tokens = node.passage.split(' ');
@@ -95,26 +95,39 @@ window.api = (function () {
 
         getReadArray: function (selector) {
         	return read;
-        },   
+        },
 
         getPrayArray: function (selector) {
         	return pray;
-        },   
+        },
         getWatchArray: function (selector) {
         	return watch;
-        },   
+        },
         getPlanDay: function (selector) {
         	return planDay;
-        },   
+        },
         getPlanDayLongForm: function (selector) {
         	return planDayLongForm;
-        },   
+        },
     };
-     
+
     return api;
 }());
 
 api.getPlan();
+
+footerNav = document.getElementById("footer-nav");
+
+var showFooter = function() {
+  var y = window.scrollY;
+  if (y >= 800) {
+    footerNav.className = "animated fadeInUp show"
+  } else {
+    footerNav.className = "animated fadeInUp"
+  }
+};
+
+
 document.addEventListener('DOMContentLoaded', function() {
     var previous = document.getElementById('picker-previous');
     previous.addEventListener('click', function() {
@@ -126,5 +139,5 @@ document.addEventListener('DOMContentLoaded', function() {
         api.getPlan(api.getPlanDay() + 1);
         //refresh view
     });
+    window.addEventListener("scroll", showFooter);
 });
-

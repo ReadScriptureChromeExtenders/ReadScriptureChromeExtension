@@ -6,26 +6,25 @@
   <link rel="stylesheet" href="css/readscripture.css">
 </head>
 <body>
-  <div class="header">
+  <header>
     <a href="http://readscripture.org/" target="_blank">
       <img src="img/readscripture.png" srcset="img/readscripture.png 1x, img/readscripture@2x.png 2x" width="32" height="27" />
     </a>
-  </div>
-  <div class="main">
+  </header>
+  <main>
     <div class="container">
       <h4>Read</h4>
       <h1 id="chapter"></h1>
       <p id="verse"></p>
     </div>
-  </div>
-  <div class="controls">
-	<div id="picker-previous">
-		previous
-	</div>
-	<div id="picker-next" onclick="api.getPlan(api.getPlanDay() + 1);">
-		next
-	</div>
-  </div>
+  </main>
+  <footer id="footer-nav" class="animated fadeInUp">
+  	<div id="picker-previous">
+  	</div>
+  	<div id="picker-next">
+  		<a href="" onclick="api.getPlan(api.getPlanDay() + 1);">Next</a>
+  	</div>
+  </footer>
   <script src="/../scripts/main.js"></script>
 </body>
 </html>
