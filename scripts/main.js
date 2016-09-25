@@ -181,8 +181,8 @@ function renderWatchText(watchArray) {
     // we get back a direct url instead of an embed url which doesn't work in this context
     var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
     iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
-    iframe.setAttribute('width', '640');
-    iframe.setAttribute('height', '390');
+    iframe.setAttribute('width', '720');
+    iframe.setAttribute('height', '480');
     video.appendChild(iframe);
     var desc = document.createElement('p');
     desc.textContent = watchArray[i].watchDesc;

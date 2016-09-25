@@ -60,19 +60,21 @@ header {
 }
 
 .menu {
-  margin-top: 8px;
+  margin-top: 40px;
   .menu-item {
     a {
       display: block;
-      padding: 16px 0;
+      padding: 0;
       color: inherit;
       text-decoration: none;
       cursor: pointer;
       h4 {
+        padding-top: 16px;
         margin-top: 0;
       }
       h1 {
-        margin-bottom: 16px;
+        margin: 0;
+        padding-bottom: 32px;
       }
       &:hover {
         h1 {
@@ -133,6 +135,12 @@ p {
 
 main {
   @include clearfix();
+  #watch,
+  #read,
+  #pray {
+    margin-top: -146px;
+    padding-top: 146px;
+  }
 }
 
 .content {
@@ -145,6 +153,8 @@ main {
 
 .video {
   iframe {
+    margin-left: -40px;
+    margin-right: -40px;
     margin-top: 32px;
     margin-bottom: 32px;
   }
@@ -170,6 +180,7 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 3;
   height: 64px;
   width: 100%;
   padding-top: 13px;
