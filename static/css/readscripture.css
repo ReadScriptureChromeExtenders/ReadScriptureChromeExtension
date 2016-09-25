@@ -2562,6 +2562,14 @@ span.paragraphBreak {
   display: block;
   margin-bottom: 0; }
 
+span.paragraphIndent {
+  display: inline-block;
+  width: 32px; }
+
+div.block-indent {
+  margin: 32px;
+  box-shadow: 2px 2px 4px #e6e6e6; }
+
 span.verseContainer {
   font-size: 22px;
   line-height: 32px;

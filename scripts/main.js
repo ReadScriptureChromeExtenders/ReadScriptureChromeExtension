@@ -11,6 +11,13 @@ const handleChapterParagraphBreak = parentNode => {
   parentNode.appendChild(paragraphBreak);
 };
 
+const handleChapterParagraphIndent = parentNode => {
+  const paragraphIndent = document.createElement('span');
+  paragraphIndent.setAttribute('class', 'paragraphIndent');
+  paragraphIndent.textContent = '\t';
+  parentNode.appendChild(paragraphIndent);
+};
+
 const handleChapterVerse = ({verseNum, content}, parentNode) => {
   // Create verse container span
   const verseContainer = document.createElement('span');
@@ -26,72 +33,74 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
   const verseTextContainer = document.createElement('span');
   verseTextContainer.setAttribute('class', 'verseTextContainer');
 
+  // Initialize current parent node
+  let currentParentNode = verseTextContainer;
+
   // Parse verse content chunks
   for (let i = 0, verseLen = content.length; i < verseLen; i++) {
-    let verseChunk;
+      let verseChunk = document.createElement('span');
+
     if (content[i].class === "divine-name") {
       // Create verse text
-      verseChunk = document.createElement('span');
       verseChunk.setAttribute('class', 'divineName');
       verseChunk.textContent = content[i].text;
+
+    } else if (content[i].class === "indent") {
+      verseChunk.setAttribute('class', 'indent');
+      verseChunk.textContent = '\t';
+      
 
     } else {
       switch(content[i].type) {
         case "text":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'verseTextChunk');
           verseChunk.textContent = content[i].text;
           break;
         case "beginDoubleQuote":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'beginDoubleQuote');
           verseChunk.textContent = '\u201C';
           break;
         case "endDoubleQuote":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'endDoubleQuote');
           verseChunk.textContent = '\u201D';
           break;
         case "beginSingleQuote":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'beginSingleQuote');
           verseChunk.textContent = '\u2018';
           break;
         case "endSingleQuote":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'endSingleQuote');
           verseChunk.textContent = '\u2019';
           break;
         case "endLine":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'endLine');
           break;
         case "beginLine":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'beginLine');
           break;
         case "beginWOC":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'beginWOC');
           break;
         case "endWOC":
-          verseChunk = document.createElement('span');
           verseChunk.setAttribute('class', 'endWOC');
           break;
         case "beginParagraph":
-          verseChunk = document.createElement('span');
-          verseChunk.setAttribute('class', 'beginParagraph');
+          verseChunk.setAttribute('class', 'paragraphIndent');
           break;
         case "endParagraph":
-          verseChunk = document.createElement('span');
-          verseChunk.setAttribute('class', 'endParagraph');
+          verseChunk.setAttribute('class', 'paragraphBreak');
           break;
         case "beginBlockIndent":
-          verseChunk = document.createElement('span');
-          verseChunk.setAttribute('class', 'beginBlockIndent');
+          verseChunk = document.createElement('div');
+          verseChunk.setAttribute('class', 'block-indent');
+          currentParentNode = verseChunk;
           break;
         case "endBlockIndent":
-          verseChunk = document.createElement('span');
+          if (currentParentNode !== verseTextContainer) {
+            chapterContainer.appendChild(currentParentNode);
+            currentParentNode = verseTextContainer;
+            handleChapterParagraphBreak(currentParentNode);
+          }
           verseChunk.setAttribute('class', 'endBlockIndent');
           break;
         default:
@@ -99,12 +108,15 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
     }
 
     // Append verse chunk to parent node
-    verseTextContainer.appendChild(verseChunk);
+    if (currentParentNode !== verseChunk) {
+      currentParentNode.appendChild(verseChunk);
+    } else {
+      verseTextContainer.appendChild(verseChunk);
+    }
   }
 
 
   // Append verse data to verse container
-  verseContainer.appendChild(verseNumber);
   verseContainer.appendChild(verseTextContainer);
 
   // Append verse container to chapter container
@@ -136,6 +148,9 @@ const getBookText = (section, passage) => {
       // Create chapter text div
       const chapterContainer = document.createElement('div');
 
+      // Default dynamic parent node to pass to functions based on previous syntax bits
+      let currentParentNode = chapterContainer;
+
       const chapterContentArray = bookText[i].content;
       for (let j = 0, versesLen = chapterContentArray.length; j < versesLen; j++) {
         const type = chapterContentArray[j].type;
@@ -143,16 +158,29 @@ const getBookText = (section, passage) => {
         // Check for content type
         switch(type) {
           case "heading":
-            handleChapterHeading(chapterContentArray[j].content[0].text, chapterContainer);
+            handleChapterHeading(chapterContentArray[j].content[0].text, currentParentNode);
             break;
           case "beginParagraph":
-            handleChapterParagraphBreak(chapterContainer);
+            handleChapterParagraphIndent(currentParentNode);
+            break;
+          case "endParagraph":
+            handleChapterParagraphBreak(currentParentNode);
+            console.log(j, chapterContentArray);
             break;
           case "beginBlockIndent":
-            handleChapterParagraphBreak(chapterContainer);
+            const blockIndentContainer = document.createElement('div');
+            blockIndentContainer.setAttribute('class', 'block-indent');
+            currentParentNode = blockIndentContainer;
+            break;
+          case "endBlockIndent":
+            if (currentParentNode !== chapterContainer) {
+              chapterContainer.appendChild(currentParentNode);
+              currentParentNode = chapterContainer;
+              handleChapterParagraphBreak(currentParentNode);
+            }
             break;
           case "verse":
-            handleChapterVerse(chapterContentArray[j], chapterContainer);
+            handleChapterVerse(chapterContentArray[j], currentParentNode);
             break;
           default:
         }
