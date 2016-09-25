@@ -226,7 +226,8 @@ footer {
   cursor: pointer;
   height: 15px;
   width: 16px;
-  background-position-y: 1px;
+  position: relative;
+  top: 1px;
   &:hover {
     background: url('/static/img/star_active.png');    
   }
