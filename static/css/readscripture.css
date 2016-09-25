@@ -2577,13 +2577,12 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 36.65px;
+  font-size: 36px;
   line-height: 40px;
-  margin-bottom: 32px;
-  margin-top: 148px; }
+  margin-bottom: 32px; }
 
 h2 {
-  font-size: 25.89px;
+  font-size: 25px;
   line-height: 32px;
   color: #B5B5B5;
   font-style: italic;
@@ -2594,13 +2593,18 @@ h4 {
   line-height: 16px;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
   color: #B5B5B5;
-  margin-bottom: 8px; }
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 16px;
+  margin-top: 114px; }
 
 p {
-  font-size: 22.65px;
+  font-size: 22px;
   line-height: 32px;
   margin-bottom: 32px; }
 
 .container {
-  max-width: 620px;
+  width: 632px;
+  padding-left: 24px;
+  padding-right: 24px;
   margin: 0 auto; }
