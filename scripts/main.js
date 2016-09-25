@@ -65,8 +65,11 @@ const getBookText = ({book, start, end}) => {
 
 function renderWatchText(watchArray) {
 	var watchDiv = document.getElementById('watch');
+	var watchMenuDiv = document.getElementById('menu-item-watch');
 	var numWatches = watchArray.length;
 	for(var i = 0; i < numWatches; i++ ) {
+
+		//main content
 		var video = document.createElement('div');
 		video.setAttribute('class', 'video');
 		var title = document.createElement('h5');
@@ -83,14 +86,20 @@ function renderWatchText(watchArray) {
 		desc.textContent = watchArray[i].watchDesc;
 		video.appendChild(desc);
 		watchDiv.appendChild(video);
+
+		//menu content
+		watchMenuDiv.appendChild(title);
 	}
 
 	//most days don't have videos
 	var header = document.getElementById('watch-header');
+	var menuheader = document.getElementById('menu-item-watch-header');
 	if(numWatches == 0) {
 		header.setAttribute('class','hide');
+		menuheader.setAttribute('class','hide');
 	} else {
 		header.setAttribute('class','');
+		menuheader.setAttribute('class','');
 	}
 
 }
