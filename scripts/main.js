@@ -435,15 +435,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     bookmark.addEventListener('click', function() {
-        if (!localStorage[DAYBOOKMARK]) {
-        	localStorage[DAYBOOKMARK] = api.getPlanDay();
-        } else {
-        	localStorage.removeItem(DAYBOOKMARK);
-        }
         if (bookmark.className == 'active') {
         	bookmark.className = '';
+        	localStorage.removeItem(DAYBOOKMARK);
         } else {
         	bookmark.className = 'active';
+        	localStorage[DAYBOOKMARK] = api.getPlanDay();
         }
     });
 
