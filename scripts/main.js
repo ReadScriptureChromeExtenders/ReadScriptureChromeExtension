@@ -10,7 +10,6 @@ const getBookText = ({book, start, end}) => {
   fetch(`http://app.readscripture.org/api/${book.toLowerCase()}.json`)
   .then(res => res.json())
   .then(bookText => {
-
     relevantChapters = bookText.chapters.slice(start - 1, end);
     var readDiv = document.getElementById('read');
 
