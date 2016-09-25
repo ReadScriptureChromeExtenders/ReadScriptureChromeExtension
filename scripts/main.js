@@ -65,6 +65,15 @@ const getBookText = ({book, start, end}) => {
   }).catch(err => console.error(err))
 };
 
+/*refresh the view
+function render() {
+	var videos = api.getWatchArray();
+	if()
+	for(var i = 0)
+}
+*/
+
+
 window.api = (function () {
     function Api (els) {
          
@@ -111,7 +120,12 @@ window.api = (function () {
 		    			case "read":
 		    				var tokens = node.passage.split(' ');
 		    				var book = tokens[0];
-		    				var chapters = tokens[1].split('-');
+		    				var chapterIndex = 1;
+		    				if (tokens.length > 2) {
+		    					book += ' ' + tokens[1];
+		    					chapterIndex = 2;
+		    				}
+		    				var chapters = tokens[chapterIndex].split('-');
 		    				var item = {
 		    					'book' : book,
 		    					'start' : chapters[0]
@@ -130,7 +144,12 @@ window.api = (function () {
 		    			case "pray":
 		    				var tokens = node.passage.split(' ');
 		    				var book = tokens[0];
-		    				var chapters = tokens[1].split('-');
+		    				var chapterIndex = 1;
+		    				if (tokens.length > 2) {
+		    					book += ' ' + tokens[1];
+		    					chapterIndex = 2;
+		    				}
+		    				var chapters = tokens[chapterIndex].split('-');
 		    				var item = {
 		    					'book' : book,
 		    					'start' : chapters[0]
@@ -172,3 +191,19 @@ window.api = (function () {
 
 api.getPlan()
 .then(() => getBookText(api.getReadArray()));
+
+
+/****** event listeners ******/
+
+document.addEventListener('DOMContentLoaded', function() {
+    var previous = document.getElementById('picker-previous');
+    previous.addEventListener('click', function() {
+        api.getPlan(api.getPlanDay() - 1);
+        //render();
+    });
+    var next = document.getElementById('picker-next');
+    next.addEventListener('click', function() {
+        api.getPlan(api.getPlanDay() + 1);
+        //render();
+    });
+});
