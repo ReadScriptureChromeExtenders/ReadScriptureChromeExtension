@@ -79,9 +79,15 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
           verseChunk.setAttribute('class', 'beginLine');
           break;
         case "beginWOC":
-          verseChunk.setAttribute('class', 'beginWOC');
+          verseChunk.setAttribute('class', 'WOC');
+          // currentParentNode = verseChunk;
           break;
         case "endWOC":
+        // console.log('endWOC', chapterContainer)
+        //   if (currentParentNode !== verseTextContainer) {
+        //     verseTextContainer.appendChild(currentParentNode);
+        //     currentParentNode = verseTextContainer;
+        //   }
           verseChunk.setAttribute('class', 'endWOC');
           break;
         case "beginParagraph":
@@ -97,7 +103,7 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
           break;
         case "endBlockIndent":
           if (currentParentNode !== verseTextContainer) {
-            chapterContainer.appendChild(currentParentNode);
+            verseTextContainer.appendChild(currentParentNode);
             currentParentNode = verseTextContainer;
             handleChapterParagraphBreak(currentParentNode);
           }
