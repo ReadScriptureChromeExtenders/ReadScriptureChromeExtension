@@ -123,7 +123,7 @@ window.api = (function () {
 			  return fetch(url)
 			  .then(res => res.json())
 			  .then(chapterJSON => {
-			  	chapterName = chapterJSON.title;			  	
+			  	chapterName = chapterJSON.title;
 			  }
 			  ).catch(err => console.error(err))
         },
@@ -146,7 +146,7 @@ window.api = (function () {
         		pray = Array();
 			    var numNodes = daysJSON.dayContents.length;
 			    planDayLongForm = 'Reading plan for: ' + daysJSON.date;
-			    chapterId = daysJSON.chapterId;			    
+			    chapterId = daysJSON.chapterId;
 
 			    for (var i = 0; i < numNodes; i++) {
 			    	var node = daysJSON.dayContents[i];
@@ -251,12 +251,9 @@ function jumpTo(day) {
         	.then(() => {
         		document.getElementById('chapterName').innerHTML = api.getChapterName();
         	});;
-        	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();        	
-        })        
+        	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
+        })
 }
-
-
-
 
 
 function showFooter () {
@@ -283,6 +280,19 @@ document.addEventListener('DOMContentLoaded', function() {
     var next = document.getElementById('picker-next');
     next.addEventListener('click', function() {
         jumpTo(api.getPlanDay() + 1);
+    });
+    var header = document.getElementById('header');
+    var logo = document.getElementById('logo');
+    logo.addEventListener('click', function() {
+        if (header.className == 'hover') {
+            header.className = '';
+        } else {
+            header.className = 'hover';
+        }
+    });
+    var menu = document.getElementById('menu');
+    menu.addEventListener('click', function() {
+        header.className = '';
     });
     window.addEventListener("scroll", showFooter);
 });
