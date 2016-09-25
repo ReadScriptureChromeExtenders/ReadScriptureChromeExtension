@@ -57,10 +57,10 @@ const getBookText = ({book, start, end}) => {
       // Append chapter container to chapter div
       chapterDiv.appendChild(chapterContainer);
       document.body.appendChild(chapterDiv);
-    }
 
-    // Append chapter to content section
-    document.getElementById('content').appendChild(chapterDiv);
+      // Append chapter to content section
+      document.getElementById('content').appendChild(chapterDiv);
+    }
 
   }).catch(err => console.error(err))
 };
@@ -194,7 +194,10 @@ footerNav = document.getElementById("footer-nav");
 
 var showFooter = function() {
   var y = window.scrollY;
-  if (y >= 800) {
+  var contentHeight = document.getElementsByTagName('body')[0].clientHeight;
+  var windowHeight = window.innerHeight;
+
+  if (y >= (contentHeight - windowHeight)) {
     footerNav.className = "animated fadeInUp show"
   } else {
     footerNav.className = "animated fadeInUp"
