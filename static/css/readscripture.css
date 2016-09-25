@@ -2569,7 +2569,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   background: #ffffff;
-  padding-bottom: 48px; }
+  padding-bottom: 144px; }
 
 header {
   position: fixed;
@@ -2599,10 +2599,17 @@ h4 {
   margin-bottom: 16px;
   margin-top: 114px; }
 
+sub {
+  display: inherit; }
+
 p {
   font-size: 22px;
   line-height: 32px;
   margin-bottom: 32px; }
+
+.p {
+  font-size: 22px;
+  line-height: 32px; }
 
 .container {
   width: 632px;

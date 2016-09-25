@@ -45,6 +45,7 @@ const getBookText = ({book, start, end}) => {
 
         // Create verse text
         const verseText = document.createElement('p');
+        verseContainer.setAttribute('class', 'p');
         verseText.textContent = chapterVerseArray[j].chardata;
 
         // Append verse data to verse container
@@ -72,8 +73,8 @@ function renderWatchText(watchArray) {
 		title.textContent = watchArray[i].title;
 		video.appendChild(title);
 		var iframe = document.createElement('iframe');
-		var url = watchArray[i].youtubeUrl.replace('watch','embed');
-		iframe.setAttribute('src', url + "&hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
+		var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
+		iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
 		iframe.setAttribute('width', '640');
 		iframe.setAttribute('height', '390');
 		video.appendChild(iframe);
