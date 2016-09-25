@@ -63,6 +63,38 @@ const getBookText = ({book, start, end}) => {
   }).catch(err => console.error(err))
 };
 
+function renderWatchText(watchArray) {
+	var watchDiv = document.getElementById('watch');
+	var numWatches = watchArray.length;
+	for(var i = 0; i < numWatches; i++ ) {
+		var video = document.createElement('div');
+		video.setAttribute('class', 'video');
+		var title = document.createElement('h5');
+		title.textContent = watchArray[i].title;
+		video.appendChild(title);
+		var iframe = document.createElement('iframe');
+		// we get back a direct url instead of an embed url which doesn't work in this context
+		var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
+		iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
+		iframe.setAttribute('width', '640');
+		iframe.setAttribute('height', '390');
+		video.appendChild(iframe);
+		var desc = document.createElement('span');
+		desc.textContent = watchArray[i].watchDesc;
+		video.appendChild(desc);
+		watchDiv.appendChild(video);
+	}
+
+	//most days don't have videos
+	var header = document.getElementById('watch-header');
+	if(numWatches == 0) {		
+		header.setAttribute('class','hide');
+	} else {
+		header.setAttribute('class','');
+	}
+
+}
+
 window.api = (function () {
     function Api (els) {
 
@@ -178,6 +210,25 @@ window.api = (function () {
     return api;
 }());
 
+function jumpTo(day) {
+	if (day < 1 || day > 365) {
+		day = 1;
+	}
+	api.getPlan(day)
+        .then(() => {
+        	document.getElementById('read').innerHTML = '';
+        	document.getElementById('watch').innerHTML = '';
+        	document.getElementById('pray').innerHTML = '';
+        }
+        	)
+        .then(() => {
+        	renderWatchText(api.getWatchArray());
+        	getBookText(api.getReadArray());
+        	document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
+
+        });
+}
+
 
 footerNav = document.getElementById("footer-nav");
 
@@ -193,34 +244,18 @@ var showFooter = function() {
   }
 };
 
-api.getPlan()
-.then(() => getBookText(api.getReadArray()));
+jumpTo();
 
 
 /****** event listeners ******/
 document.addEventListener('DOMContentLoaded', function() {
     var previous = document.getElementById('picker-previous');
     previous.addEventListener('click', function() {
-        api.getPlan(api.getPlanDay() - 1)
-        .then(() => {
-        	document.getElementById('read').innerHTML = '';
-        	document.getElementById('watch').innerHTML = '';
-        	document.getElementById('pray').innerHTML = '';
-        }
-        	)
-        .then(() => getBookText(api.getReadArray()));
+    	jumpTo(api.getPlanDay() - 1);
     });
     var next = document.getElementById('picker-next');
     next.addEventListener('click', function() {
-        api.getPlan(api.getPlanDay() + 1)
-		.then(() => {
-        	document.getElementById('read').innerHTML = '';
-        	document.getElementById('watch').innerHTML = '';
-        	document.getElementById('pray').innerHTML = '';
-        }
-        	)
-        .then(() => getBookText(api.getReadArray()));
-
+        jumpTo(api.getPlanDay() + 1);
     });
     window.addEventListener("scroll", showFooter);
 });

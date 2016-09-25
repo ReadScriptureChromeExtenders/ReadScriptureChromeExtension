@@ -2571,6 +2571,13 @@ body {
   background: #ffffff;
   padding-bottom: 144px; }
 
+date {
+  position: absolute;
+  top: 24px;
+  right: 24px; }
+  date h4 {
+    margin-top: 0; }
+
 header {
   position: fixed;
   left: 0;
@@ -2597,7 +2604,8 @@ header {
     display: block;
     padding: 32px 0 8px;
     color: inherit;
-    text-decoration: none; }
+    text-decoration: none;
+    cursor: pointer; }
     .menu .menu-item a h4 {
       margin-top: 0; }
     .menu .menu-item a h1 {
@@ -2717,3 +2725,6 @@ footer {
   background: #06c;
   border-radius: 2px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2); }
+
+.hide {
+  display: none; }
