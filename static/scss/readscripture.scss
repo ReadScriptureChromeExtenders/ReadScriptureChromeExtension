@@ -12,7 +12,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   background: #ffffff;
-  padding-bottom: 48px;
+  padding-bottom: 144px;
 }
 
 header {
@@ -47,10 +47,19 @@ h4 {
   margin-top: 114px;
 }
 
+sub {
+  display: inherit;
+}
+
 p {
   font-size: 22px;
   line-height: 32px;
   margin-bottom: 32px;
+}
+
+.p {
+  font-size: 22px;
+  line-height: 32px;
 }
 
 .container {

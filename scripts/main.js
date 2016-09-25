@@ -45,6 +45,7 @@ const getBookText = ({book, start, end}) => {
 
         // Create verse text
         const verseText = document.createElement('p');
+        verseContainer.setAttribute('class', 'p');
         verseText.textContent = chapterVerseArray[j].chardata;
 
         // Append verse data to verse container
@@ -219,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         	)
         .then(() => getBookText(api.getReadArray()));
-      
+
     });
     window.addEventListener("scroll", showFooter);
 });
