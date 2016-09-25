@@ -211,6 +211,9 @@ window.api = (function () {
 }());
 
 function jumpTo(day) {
+	if (day < 1 || day > 365) {
+		day = 1;
+	}
 	api.getPlan(day)
         .then(() => {
         	document.getElementById('read').innerHTML = '';
