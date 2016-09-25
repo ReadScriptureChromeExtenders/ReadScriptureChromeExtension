@@ -210,7 +210,7 @@ function renderWatchText(watchArray) {
     var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
     iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
     iframe.setAttribute('width', '632');
-    iframe.setAttribute('height', '421');
+    iframe.setAttribute('height', '356');
     video.appendChild(iframe);
     var desc = document.createElement('p');
     desc.textContent = watchArray[i].watchDesc;
@@ -323,7 +323,7 @@ window.api = (function () {
           return watch;
         },
         getPlanDay: function (selector) {
-          return planDay;
+          return Number(planDay);
         },
         getPlanDayLongForm: function (selector) {
           return planDayLongForm;
@@ -340,10 +340,13 @@ window.api = (function () {
 }());
 
 function jumpTo(day) {
+
   if (day > 365) {
     day = 1;
   } else if (day < 0) {
     day = 365;
+  } else if (day % 1 !== 0) {
+  	day = undefined;
   }
   api.getPlan(day)
     .then(() => {
