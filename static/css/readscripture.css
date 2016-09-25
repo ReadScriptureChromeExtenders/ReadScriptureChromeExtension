@@ -2808,7 +2808,8 @@ footer {
   height: 15px;
   width: 16px;
   position: relative;
-  top: 1px; }
+  top: 1px;
+  margin-left: 3px; }
   #bookmark:hover {
     background: url("/static/img/star_active.png"); }
   #bookmark.active {
