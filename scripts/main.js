@@ -1,6 +1,6 @@
 const handleChapterHeading = (headingText, parentNode) => {
   console.log("this > ", parentNode);
-  const chapterHeader = document.createElement('h4');
+  const chapterHeader = document.createElement('h2');
   chapterHeader.setAttribute('class', 'chapterHeader');
   chapterHeader.textContent = headingText;
   parentNode.appendChild(chapterHeader);
@@ -36,7 +36,7 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
       verseChunk = document.createElement('span');
       verseChunk.setAttribute('class', 'divineName');
       verseChunk.textContent = content[i].text;
-      
+
     } else {
       switch(content[i].type) {
         case "text":
