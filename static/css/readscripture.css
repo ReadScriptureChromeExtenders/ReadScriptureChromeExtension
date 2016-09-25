@@ -2624,6 +2624,10 @@ p {
   .container:after {
     clear: both; }
 
+  .hide {
+    display: none;
+  }
+
 footer {
   position: fixed;
   bottom: 0;

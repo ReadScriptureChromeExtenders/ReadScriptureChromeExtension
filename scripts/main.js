@@ -73,6 +73,7 @@ function renderWatchText(watchArray) {
 		title.textContent = watchArray[i].title;
 		video.appendChild(title);
 		var iframe = document.createElement('iframe');
+		// we get back a direct url instead of an embed url which doesn't work in this context
 		var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
 		iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
 		iframe.setAttribute('width', '640');
@@ -82,6 +83,14 @@ function renderWatchText(watchArray) {
 		desc.textContent = watchArray[i].watchDesc;
 		video.appendChild(desc);
 		watchDiv.appendChild(video);
+	}
+
+	//most days don't have videos
+	var header = document.getElementById('watch-header');
+	if(numWatches == 0) {		
+		header.setAttribute('class','hide');
+	} else {
+		header.setAttribute('class','');
 	}
 
 }
