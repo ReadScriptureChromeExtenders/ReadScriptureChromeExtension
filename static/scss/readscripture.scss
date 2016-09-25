@@ -47,19 +47,8 @@ header {
     display: none;
     transition: all .3s;
   }
-  &:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-
-    display: block;
-    background: rgba(230,230,230,.3);
-  }
   &.hover {
+    width: 480px;
     .logo {
       opacity: 1;
     }

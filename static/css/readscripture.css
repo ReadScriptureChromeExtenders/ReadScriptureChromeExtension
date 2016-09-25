@@ -2623,22 +2623,14 @@ header {
     display: none;
     -webkit-transition: all .3s;
     transition: all .3s; }
-  header:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    display: block;
-    background: rgba(230, 230, 230, 0.3); }
-  header.hover .logo {
-    opacity: 1; }
-  header.hover menu {
-    display: block;
-    -webkit-transition: all .3s;
-    transition: all .3s; }
+  header.hover {
+    width: 480px; }
+    header.hover .logo {
+      opacity: 1; }
+    header.hover menu {
+      display: block;
+      -webkit-transition: all .3s;
+      transition: all .3s; }
 
 .menu {
   margin-top: 8px; }
