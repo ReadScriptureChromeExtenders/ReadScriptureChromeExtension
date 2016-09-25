@@ -16,7 +16,7 @@ body {
 }
 
 date {
-  position: absolute;
+  position: fixed;
   top: 32px;
   left: 24px;
   right: 24px;
@@ -190,6 +190,9 @@ footer {
   border-radius: 2px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  &:hover {
+    opacity: .9;
+  }
 }
 
 .hide {
@@ -198,4 +201,9 @@ footer {
 
 @media screen and (max-width: 740px) {
 
+}
+
+@media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
 }

@@ -278,6 +278,16 @@ function showFooter () {
   }
 };
 
+function hideDate() {
+  var date = document.getElementById("date");
+  var y = window.scrollY;
+  if (y >= 16) {
+    date.style.opacity = '1' - y / 40;
+  } else {
+    date.style.opacity = '1';
+  }
+};
+
 jumpTo();
 
 /****** event listeners ******/
@@ -304,4 +314,5 @@ document.addEventListener('DOMContentLoaded', function() {
         header.className = '';
     });
     window.addEventListener("scroll", showFooter);
+    window.addEventListener("scroll", hideDate);
 });
