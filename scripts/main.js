@@ -87,7 +87,7 @@ function renderWatchText(watchArray) {
 
 	//most days don't have videos
 	var header = document.getElementById('watch-header');
-	if(numWatches == 0) {		
+	if(numWatches == 0) {
 		header.setAttribute('class','hide');
 	} else {
 		header.setAttribute('class','');
@@ -245,7 +245,6 @@ var showFooter = function() {
 };
 
 jumpTo();
-
 
 /****** event listeners ******/
 document.addEventListener('DOMContentLoaded', function() {

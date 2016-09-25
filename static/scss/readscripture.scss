@@ -32,13 +32,13 @@ header {
   padding: 24px;
   cursor: pointer;
   .logo {
-    opacity: .5;
+    opacity: .35;
   }
   menu {
     display: none;
     transition: all .3s;
   }
-  &:hover {
+  &.hover {
     .logo {
       opacity: 1;
     }

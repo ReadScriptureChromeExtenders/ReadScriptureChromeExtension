@@ -2586,14 +2586,14 @@ header {
   padding: 24px;
   cursor: pointer; }
   header .logo {
-    opacity: .5; }
+    opacity: .35; }
   header menu {
     display: none;
     -webkit-transition: all .3s;
     transition: all .3s; }
-  header:hover .logo {
+  header.hover .logo {
     opacity: 1; }
-  header:hover menu {
+  header.hover menu {
     display: block;
     -webkit-transition: all .3s;
     transition: all .3s; }
