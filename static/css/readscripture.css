@@ -2577,12 +2577,12 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 36.65px;
+  font-size: 36px;
   line-height: 40px;
   margin-bottom: 32px; }
 
 h2 {
-  font-size: 25.89px;
+  font-size: 25px;
   line-height: 32px;
   color: #B5B5B5;
   font-style: italic;
@@ -2599,7 +2599,7 @@ h4 {
   margin-top: 114px; }
 
 p {
-  font-size: 22.65px;
+  font-size: 22px;
   line-height: 32px;
   margin-bottom: 32px; }
 
