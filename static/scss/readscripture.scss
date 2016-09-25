@@ -49,8 +49,8 @@ header {
   }
   &.hover {
     width: 480px;
-    background: #FFFFFF;
-    border-right: 1px solid #CCCCCC;
+    background: rgba(255,255,255,.75);
+    border-right: 1px solid #f5f5f5;
     .logo {
       opacity: 1;
     }
