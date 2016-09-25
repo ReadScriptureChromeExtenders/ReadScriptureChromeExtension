@@ -88,7 +88,9 @@ function renderWatchText(watchArray) {
 		watchDiv.appendChild(video);
 
 		//menu content
-		watchMenuDiv.appendChild(title);
+		var mtitle = document.createElement('h1');
+		mtitle.textContent = watchArray[i].title;
+		watchMenuDiv.appendChild(mtitle);
 	}
 
 	//most days don't have videos
