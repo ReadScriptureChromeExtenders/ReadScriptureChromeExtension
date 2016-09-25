@@ -1,7 +1,11 @@
-const handleChapterHeading = (headingText, parentNode) => {
+const handleChapterHeading = (headingNode, parentNode) => {
   const chapterHeader = document.createElement('h2');
   chapterHeader.setAttribute('class', 'chapterHeader');
-  chapterHeader.textContent = headingText;
+
+  for (let i = 0; i < headingNode.length; i++) {
+    chapterHeader.textContent += headingNode[i].text;
+  }
+
   parentNode.appendChild(chapterHeader);
 };
 
@@ -80,14 +84,13 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
           break;
         case "beginWOC":
           verseChunk.setAttribute('class', 'WOC');
-          // currentParentNode = verseChunk;
+          currentParentNode = verseChunk;
           break;
         case "endWOC":
-        // console.log('endWOC', chapterContainer)
-        //   if (currentParentNode !== verseTextContainer) {
-        //     verseTextContainer.appendChild(currentParentNode);
-        //     currentParentNode = verseTextContainer;
-        //   }
+          if (currentParentNode.classList.contains('WOC')) {
+            verseTextContainer.appendChild(currentParentNode);
+            currentParentNode = verseTextContainer;
+          }
           verseChunk.setAttribute('class', 'endWOC');
           break;
         case "beginParagraph":
@@ -166,14 +169,13 @@ const getBookText = (section, passage) => {
         // Check for content type
         switch(type) {
           case "heading":
-            handleChapterHeading(chapterContentArray[j].content[0].text, currentParentNode);
+            handleChapterHeading(chapterContentArray[j].content, currentParentNode);
             break;
           case "beginParagraph":
             handleChapterParagraphIndent(currentParentNode);
             break;
           case "endParagraph":
             handleChapterParagraphBreak(currentParentNode);
-            console.log(j, chapterContentArray);
             break;
           case "beginBlockIndent":
             const blockIndentContainer = document.createElement('div');
@@ -289,7 +291,6 @@ window.api = (function () {
         return fetch(url)
         .then(res => res.json())
         .then(daysJSON => {
-          console.log(daysJSON);
           read = Array();
             watch = Array();
             pray = Array();
