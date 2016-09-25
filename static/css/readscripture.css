@@ -2558,24 +2558,30 @@ input[type=button] {
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp; }
 
-span.paragraphBreak {
+.paragraphBreak,
+.endLine {
   display: block;
   margin-bottom: 0; }
 
-span.paragraphIndent {
+.paragraphIndent {
   display: inline-block;
-  width: 32px; }
+  width: 16px; }
 
-div.block-indent {
-  margin: 32px;
-  box-shadow: 2px 2px 4px #e6e6e6; }
+.block-indent {
+  margin-left: 16px;
+  margin-right: 16px; }
+  .block-indent .paragraphIndent {
+    display: inherit; }
 
-span.verseContainer {
+.WOC {
+  color: #F83945; }
+
+.verseContainer {
   font-size: 22px;
   line-height: 32px;
   text-indent: 16px; }
 
-h2.chapterHeader {
+.chapterHeader {
   margin-top: 32px;
   margin-bottom: 0;
   font-style: normal;
@@ -2584,10 +2590,10 @@ h2.chapterHeader {
   line-height: 32px;
   color: inherit; }
 
-h1.chapterRange {
+.chapterRange {
   margin-bottom: 88px; }
 
-sup.verseNum {
+.verseNum {
   font-size: 14px;
   color: #b5b5b5;
   margin-top: -8px; }
