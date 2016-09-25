@@ -21,7 +21,7 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
   // Create verse number and append to verse container
   const verseNumber = document.createElement('sup');
   verseNumber.setAttribute('class', 'verseNum');
-  verseNumber.textContent = verseNum;
+  verseNumber.textContent = ' ' + verseNum + ' ';
   verseContainer.appendChild(verseNumber);
 
   // Create verse text container
@@ -209,7 +209,6 @@ function renderWatchText(watchArray) {
     header.setAttribute('class','');
     menuheader.setAttribute('class','');
   }
-
 }
 
 window.api = (function () {
@@ -276,7 +275,7 @@ window.api = (function () {
                 break;
               break;
               case "pray":
-                pray = node.package;
+                pray = node.passage;
               break;
 
               default:
@@ -318,25 +317,25 @@ function jumpTo(day) {
     day = 365;
   }
   api.getPlan(day)
-        .then(() => {
-          document.getElementById('read').innerHTML = '';
-          document.getElementById('watch').innerHTML = '';
-          document.getElementById('pray').innerHTML = '';
-          document.getElementById('menu-item-watch').innerHTML = '';
-          var footerNav = document.getElementById("footer-nav");
-          footerNav.className = ""
-        }
-          )
-        .then(() => {
-          renderWatchText(api.getWatchArray());
-          getBookText('read', api.getReadArray());
-          getBookText('pray', api.getPrayArray());
-          api.getChapter(api.getChapterId())
-          .then(() => {
-            document.getElementById('chapterName').innerHTML = api.getChapterName();
-          });;
-          document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
-        })
+    .then(() => {
+      document.getElementById('read').innerHTML = '';
+      document.getElementById('watch').innerHTML = '';
+      document.getElementById('pray').innerHTML = '';
+      document.getElementById('menu-item-watch').innerHTML = '';
+      var footerNav = document.getElementById("footer-nav");
+      footerNav.className = ""
+    }
+      )
+    .then(() => {
+      renderWatchText(api.getWatchArray());
+      getBookText('read', api.getReadArray());
+      getBookText('pray', api.getPrayArray());
+      api.getChapter(api.getChapterId())
+      .then(() => {
+        document.getElementById('chapterName').innerHTML = api.getChapterName();
+      });;
+      document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
+    })
 }
 
 
