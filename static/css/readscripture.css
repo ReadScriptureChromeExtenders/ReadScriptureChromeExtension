@@ -2638,7 +2638,9 @@ header {
     -webkit-transition: all .3s;
     transition: all .3s; }
   header.hover {
-    width: 480px; }
+    width: 480px;
+    background: #FFFFFF;
+    border-right: 1px solid #CCCCCC; }
     header.hover .logo {
       opacity: 1; }
     header.hover menu {
