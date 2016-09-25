@@ -5,7 +5,6 @@ const getExodus = () => {
   fetch('http://app.readscripture.org/api/exodus.json')
   .then(res => res.json())
   .then(bookText => {
-    console.log(bookText);
     CHAPTER.textContent = bookText.book + bookText.chapters[0].chapterNum;
     verseArray = bookText.chapters[0].verses.map(verseObj => verseObj.chardata);
     VERSE.textContent = verseArray.join(' ');
@@ -49,7 +48,6 @@ window.api = (function () {
 			  fetch(url)
 			  .then(res => res.json())
 			  .then(daysJSON => {
-			    console.log(daysJSON);
 			    read = Array();
         		watch = Array();
         		pray = Array();
@@ -117,3 +115,16 @@ window.api = (function () {
 }());
 
 api.getPlan();
+document.addEventListener('DOMContentLoaded', function() {
+    var previous = document.getElementById('picker-previous');
+    previous.addEventListener('click', function() {
+        api.getPlan(api.getPlanDay() - 1);
+        //refresh view
+    });
+    var next = document.getElementById('picker-next');
+    next.addEventListener('click', function() {
+        api.getPlan(api.getPlanDay() + 1);
+        //refresh view
+    });
+});
+
