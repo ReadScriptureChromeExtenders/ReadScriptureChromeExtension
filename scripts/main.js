@@ -12,6 +12,7 @@ const getBookText = ({book, start, end}) => {
   .then(bookText => {
 
     relevantChapters = bookText.chapters.slice(start - 1, end);
+    var readDiv = document.getElementById('read');
 
     // Create chapter range header
     const chapterRange = document.createElement('h1');
@@ -56,23 +57,10 @@ const getBookText = ({book, start, end}) => {
 
       // Append chapter container to chapter div
       chapterDiv.appendChild(chapterContainer);
-      document.body.appendChild(chapterDiv);
-
-      // Append chapter to content section
-      document.getElementById('content').appendChild(chapterDiv);
+      readDiv.appendChild(chapterDiv);
     }
-
   }).catch(err => console.error(err))
 };
-
-/*refresh the view
-function render() {
-	var videos = api.getWatchArray();
-	if()
-	for(var i = 0)
-}
-*/
-
 
 window.api = (function () {
     function Api (els) {
@@ -212,13 +200,26 @@ api.getPlan()
 document.addEventListener('DOMContentLoaded', function() {
     var previous = document.getElementById('picker-previous');
     previous.addEventListener('click', function() {
-        api.getPlan(api.getPlanDay() - 1);
-        //render();
+        api.getPlan(api.getPlanDay() - 1)
+        .then(() => {
+        	document.getElementById('read').innerHTML = '';
+        	document.getElementById('watch').innerHTML = '';
+        	document.getElementById('pray').innerHTML = '';
+        }
+        	)
+        .then(() => getBookText(api.getReadArray()));
     });
     var next = document.getElementById('picker-next');
     next.addEventListener('click', function() {
-        api.getPlan(api.getPlanDay() + 1);
-        //render();
+        api.getPlan(api.getPlanDay() + 1)
+		.then(() => {
+        	document.getElementById('read').innerHTML = '';
+        	document.getElementById('watch').innerHTML = '';
+        	document.getElementById('pray').innerHTML = '';
+        }
+        	)
+        .then(() => getBookText(api.getReadArray()));
+      
     });
     window.addEventListener("scroll", showFooter);
 });
