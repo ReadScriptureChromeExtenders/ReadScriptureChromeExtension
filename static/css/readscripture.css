@@ -2708,6 +2708,10 @@ main:after {
   .content:after {
     clear: both; }
 
+.video iframe {
+  margin-top: 32px;
+  margin-bottom: 32px; }
+
 .credits {
   position: absolute;
   bottom: 20px;

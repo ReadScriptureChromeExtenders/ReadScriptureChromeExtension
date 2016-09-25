@@ -178,7 +178,7 @@ function renderWatchText(watchArray) {
     //main content
     var video = document.createElement('div');
     video.setAttribute('class', 'video');
-    var title = document.createElement('h5');
+    var title = document.createElement('h1');
     title.textContent = watchArray[i].title;
     video.appendChild(title);
     var iframe = document.createElement('iframe');
@@ -188,7 +188,7 @@ function renderWatchText(watchArray) {
     iframe.setAttribute('width', '640');
     iframe.setAttribute('height', '390');
     video.appendChild(iframe);
-    var desc = document.createElement('span');
+    var desc = document.createElement('p');
     desc.textContent = watchArray[i].watchDesc;
     video.appendChild(desc);
     watchDiv.appendChild(video);
