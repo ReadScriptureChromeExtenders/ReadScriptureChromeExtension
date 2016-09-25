@@ -367,20 +367,27 @@ jumpTo();
 /****** event listeners ******/
 document.addEventListener('DOMContentLoaded', function() {
     var previous = document.getElementById('picker-previous');
-    previous.addEventListener('click', function() {
-      jumpTo(api.getPlanDay() - 1);
-    });
     var next = document.getElementById('picker-next');
-    next.addEventListener('click', function() {
-        jumpTo(api.getPlanDay() + 1);
-    });
     var header = document.getElementById('header');
     var logo = document.getElementById('logo');
+    var footerNav = document.getElementById("footer-nav");
+
+    previous.addEventListener('click', function() {
+      jumpTo(api.getPlanDay() - 1);
+      header.className = '';
+    });
+
+    next.addEventListener('click', function() {
+        jumpTo(api.getPlanDay() + 1);
+        header.className = '';
+    });
+
     logo.addEventListener('click', function() {
         if (header.className == 'hover') {
             header.className = '';
         } else {
             header.className = 'hover';
+            footerNav.className = "";
         }
     });
     var menu = document.getElementById('menu');
