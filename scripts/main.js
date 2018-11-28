@@ -153,9 +153,9 @@ const getBookText = (section, passage) => {
       	const chapterNumberHeader = document.createElement('h2');
       	chapterNumberHeader.setAttribute('class', 'chapterNumberHeader');
       	chapterNumberHeader.textContent = `Chapter ${bookText[i].chapterNum}`;
-      	chapterDiv.appendChild(chapterNumberHeader);	
+      	chapterDiv.appendChild(chapterNumberHeader);
       }
-      
+
       // Create chapter text div
       const chapterContainer = document.createElement('div');
 
@@ -427,11 +427,21 @@ document.addEventListener('DOMContentLoaded', function() {
     previous.addEventListener('click', function() {
       jumpTo(api.getPlanDay() - 1);
       header.className = '';
+      window.scroll({
+       top: 0,
+       left: 0,
+       behavior: 'smooth'
+      });
     });
 
     next.addEventListener('click', function() {
         jumpTo(api.getPlanDay() + 1);
         header.className = '';
+        window.scroll({
+         top: 0,
+         left: 0,
+         behavior: 'smooth'
+        });
     });
 
     bookmark.addEventListener('click', function() {
