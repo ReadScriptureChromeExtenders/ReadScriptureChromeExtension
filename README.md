@@ -1,5 +1,5 @@
 # Read Scripture Chrome Extension
 
-Chrome Extension to help read the Bible with the year-long Bible reading plan by Read Scripture.
+Chrome Extension that opens the daily Read Scripture Bible reading in a new tab.
 
 <img src="store/ReadScripture%20Screenshot.png" />
