@@ -2603,7 +2603,6 @@ body {
   line-height: 24px;
   font-family: "Cardo", serif;
   color: #4F4E4E;
-  -webkit-transition: all 0.25s;
   transition: all 0.25s;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -2635,18 +2634,16 @@ header {
     cursor: pointer; }
   header menu {
     display: none;
-    -webkit-transition: all .3s;
     transition: all .3s; }
   header.hover {
     min-width: 240px;
     max-width: 480px;
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.95);
     border-right: 1px solid #f5f5f5; }
     header.hover .logo {
       opacity: 1; }
     header.hover menu {
       display: block;
-      -webkit-transition: all .3s;
       transition: all .3s; }
 
 .menu {
@@ -2766,12 +2763,8 @@ footer {
   padding-top: 13px;
   padding-left: 24px;
   padding-right: 24px;
-  -webkit-transform: translateY(100%);
   transform: translateY(100%);
-  -webkit-transition: -webkit-transform .3s;
-  transition: -webkit-transform .3s;
   transition: transform .3s;
-  transition: transform .3s, -webkit-transform .3s;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Open Sans","Helvetica Neue",sans-serif;
   font-size: 14px;
   line-height: 16px; }
@@ -2781,12 +2774,8 @@ footer {
     float: right; }
   footer.show {
     bottom: 0;
-    -webkit-transform: translateY(0%);
     transform: translateY(0%);
-    -webkit-transition: -webkit-transform .3s;
-    transition: -webkit-transform .3s;
-    transition: transform .3s;
-    transition: transform .3s, -webkit-transform .3s; }
+    transition: transform .3s; }
 
 .btn {
   display: inline-block;
@@ -2801,20 +2790,6 @@ footer {
   cursor: pointer; }
   .btn:hover {
     opacity: .9; }
-
-#bookmark {
-  display: inline-block;
-  background: url("/static/img/star_inactive.png");
-  cursor: pointer;
-  height: 15px;
-  width: 16px;
-  position: relative;
-  top: 1px;
-  margin-left: 3px; }
-  #bookmark:hover {
-    background: url("/static/img/star_active.png"); }
-  #bookmark.active {
-    background: url("/static/img/star_active.png"); }
 
 .hide {
   display: none; }
