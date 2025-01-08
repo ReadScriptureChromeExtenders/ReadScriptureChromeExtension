@@ -19,6 +19,12 @@ Chrome Extension that opens the Read Scripture daily Bible reading in a new tab.
 1. Visit the [Chrome Web Store](https://chrome.google.com/webstore/detail/readscripture-extension/EXTENSION_ID)
 2. Click "Add to Chrome"
 
+### Quick Install
+1. Download the [latest release ZIP file](read-scripture-extension-v3.1.4.zip) from this repository
+2. Open Chrome and go to `chrome://extensions/`
+3. Enable "Developer mode" in the top right
+4. Drag and drop the ZIP file into the Chrome extensions page
+
 ### For Development
 1. Clone the repository:
 ```bash
