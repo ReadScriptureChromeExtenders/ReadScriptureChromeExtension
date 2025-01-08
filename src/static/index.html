@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ReadScripture</title>
+  <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet">
+  <link rel="stylesheet" href="css/readscripture.css">
+</head>
+<body>
+  <date id="date">
+    <div class="content">
+      <span id="dayLongForm"></span> | <span id="chapterName"></span>
+    </div>
+  </date>
+  <header id="header">
+    <div id="logo" class="logo">
+      <img src="img/readscripture.png" srcset="img/readscripture.png 1x, img/readscripture@2x.png 2x" width="32" height="27" />
+    </div>
+    <menu id="menu">
+      <ul class="menu">
+        <li class="menu-item">
+          <a href="#watch">
+            <h4 id="menu-header-Watch"></h4>
+            <h1 id="menu-header-Watch-Title"></h1>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#read">
+            <h4 id="menu-header-Read">Read</h4>
+            <h1 id="menu-header-Read-Title"></h1>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="#pray">
+            <h4 id="menu-header-Pray">Pray</h4>
+            <h1 id="menu-header-Pray-Title"></h1>
+          </a>
+        </li>
+      </ul>
+      <span class="credits">
+    		<a href="http://www.readscripture.org" target="_blank">readscripture.org</a>
+    	</span>
+    </menu>
+  </header>
+  <main>
+    <div class="content">
+      <h4 id="watch-header">Watch</h4>
+      <div id="watch"></div>
+
+      <h4>Read</h4>
+      <div id="read"></div>
+
+      <h4>Pray</h4>
+      <div id="pray"></div>
+    </div>
+  </main>
+  <footer id="footer-nav">
+    <div id="picker-previous">
+      <a class="btn">Previous</a>
+  	</div>
+  	<div id="picker-next">
+  		<a class="btn">Next</a>
+  	</div>
+  </footer>
+  <script src="../main.js"></script>
+</body>
+</html>

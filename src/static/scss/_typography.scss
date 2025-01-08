@@ -1,0 +1,50 @@
+.paragraphBreak,
+.endLine {
+  display: block;
+  margin-bottom: 0;
+}
+
+.paragraphIndent {
+  display: inline-block;
+  width: 16px;
+}
+
+.block-indent {
+  margin-left: 16px;
+  margin-right: 16px;
+  .paragraphIndent {
+    display: inherit;
+  }
+  .beginDoubleQuote {
+  }
+}
+
+.WOC {
+  color: #F83945;
+}
+
+.verseContainer {
+  font-size: 22px;
+  line-height: 32px;
+  text-indent: 16px;
+}
+
+.chapterHeader {
+  margin-top: 32px;
+  margin-bottom: 0;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 32px;
+  color: inherit;
+}
+
+.chapterRange {
+  margin-bottom: 88px;
+}
+
+.verseNum {
+  font-size: 14px;
+  color: #b5b5b5;
+  margin-top: -8px;
+}

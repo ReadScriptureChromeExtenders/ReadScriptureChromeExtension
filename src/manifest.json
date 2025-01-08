@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+
+  "name": "ReadScripture Extension",
+  "short_name": "ReadScripture Extension",
+  "description": "This extension will present bible scripture when opening a new tab",
+  "version": "3.1.4",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "chrome_url_overrides": {
+    "newtab": "static/index.html"
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://readscripture-api.herokuapp.com/*"
+  ],
+  "icons": {
+    "16": "static/img/chrome-icon-16.png",
+    "48": "static/img/chrome-icon-48.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

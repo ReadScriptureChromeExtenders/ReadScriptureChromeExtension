@@ -132,11 +132,142 @@ const handleChapterVerse = ({verseNum, content}, parentNode) => {
   parentNode.appendChild(verseContainer);
 };
 
-const getBookText = (section, passage) => {
-  fetch(`https://readscripture-api.herokuapp.com/api/v1/passage?search=${passage}`)
-  .then(res => res.json())
-  .then(bookText => {
+const fetchOptions = {
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  mode: 'cors',
+  credentials: 'omit'
+};
+
+// Initialize API object first
+window.api = (function() {
+  let read = Array();
+  let watch = Array();
+  let pray = Array();
+  let planDay;
+  let planDayLongForm;
+  let chapterId;
+  let chapterName;
+
+  return {
+    calculateDayOfYear: function() {
+      var now = new Date();
+      var start = new Date(now.getFullYear(), 0, 0);
+      var diff = now - start;
+      return Math.floor(diff / 86400000);
+    },
+    getPlan: async function(day) {
+      console.log(`Fetching plan for day: ${day}`);
+      try {
+        const response = await fetch(
+          `https://readscripture-api.herokuapp.com/api/v1/days/${day}`,
+          fetchOptions
+        );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Received plan data:', data);
+        
+        // Set the plan day
+        planDay = day;
+        
+        // Reset arrays
+        read = Array();
+        watch = Array();
+        pray = Array();
+        
+        // Set plan day long form
+        planDayLongForm = `Reading for ${data.date}`;
+        chapterId = data.chapterId;
+        
+        // Process day contents
+        data.dayContents.forEach(content => {
+          switch (content.type) {
+            case 'read':
+              read = content.passage;
+              const readTitle = document.getElementById('menu-header-Read-Title');
+              if (readTitle) readTitle.textContent = content.passage;
+              break;
+            case 'watch':
+              watch.push(content);
+              const watchHeader = document.getElementById('menu-header-Watch');
+              const watchTitle = document.getElementById('menu-header-Watch-Title');
+              if (watchHeader) watchHeader.textContent = 'Watch';
+              if (watchTitle) watchTitle.textContent = content.passage;
+              break;
+            case 'pray':
+              pray = content.passage;
+              const prayTitle = document.getElementById('menu-header-Pray-Title');
+              if (prayTitle) prayTitle.textContent = content.passage;
+              break;
+          }
+        });
+
+        return data;
+      } catch (error) {
+        console.error('Error fetching plan:', error);
+        const dateElement = document.getElementById('date');
+        if (dateElement) {
+          dateElement.innerHTML = '<p>Error loading content. Please try refreshing.</p>';
+        }
+        throw error;
+      }
+    },
+    getReadArray: () => read,
+    getPrayArray: () => pray,
+    getWatchArray: () => watch,
+    getPlanDay: () => planDay,
+    getPlanDayLongForm: () => planDayLongForm,
+    getChapterName: () => chapterName,
+    getChapterId: () => chapterId,
+    getChapter: async function(id) {
+      try {
+        const response = await fetch(
+          `https://readscripture-api.herokuapp.com/api/v1/chapters/${id}`,
+          fetchOptions
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        chapterName = data.title;
+        return data;
+      } catch (error) {
+        console.error('Error fetching chapter:', error);
+        throw error;
+      }
+    }
+  };
+})();
+
+// First, define the helper functions
+const getBookText = async (section, passage) => {
+  if (!passage) {
+    console.log('No passage provided');
+    return;
+  }
+  
+  try {
+    console.log(`Fetching passage: ${passage}`);
+    const response = await fetch(
+      `https://readscripture-api.herokuapp.com/api/v1/passage?search=${encodeURIComponent(passage)}`,
+      fetchOptions
+    );
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('Received passage data:', data);
+    
     const sectionDiv = document.getElementById(section);
+    if (!sectionDiv) return;
 
     // Create chapter range header
     const chapterRange = document.createElement('h1');
@@ -144,328 +275,220 @@ const getBookText = (section, passage) => {
     chapterRange.textContent = passage;
     sectionDiv.appendChild(chapterRange);
 
-    // Create chapter header and text for each chapter
-    for (let i = 0, chaptersLen = bookText.length; i < chaptersLen; i++) {
+    // Process each chapter
+    for (let i = 0; i < data.length; i++) {
       const chapterDiv = document.createElement('div');
-
-      // Create chapter header
-      if(bookText[i].chapterNum) {
-      	const chapterNumberHeader = document.createElement('h2');
-      	chapterNumberHeader.setAttribute('class', 'chapterNumberHeader');
-      	chapterNumberHeader.textContent = `Chapter ${bookText[i].chapterNum}`;
-      	chapterDiv.appendChild(chapterNumberHeader);
+      if (data[i].chapterNum) {
+        const chapterHeader = document.createElement('h2');
+        chapterHeader.setAttribute('class', 'chapterNumberHeader');
+        chapterHeader.textContent = `Chapter ${data[i].chapterNum}`;
+        chapterDiv.appendChild(chapterHeader);
       }
-
-      // Create chapter text div
-      const chapterContainer = document.createElement('div');
-
-      // Default dynamic parent node to pass to functions based on previous syntax bits
-      let currentParentNode = chapterContainer;
-
-      const chapterContentArray = bookText[i].content;
-      for (let j = 0, versesLen = chapterContentArray.length; j < versesLen; j++) {
-        const type = chapterContentArray[j].type;
-
-        // Check for content type
-        switch(type) {
-          case "heading":
-            handleChapterHeading(chapterContentArray[j].content, currentParentNode);
+      
+      // Process chapter content
+      const contentDiv = document.createElement('div');
+      let currentContainer = contentDiv;
+      
+      data[i].content.forEach(item => {
+        switch (item.type) {
+          case 'verse':
+            renderVerse(item, currentContainer);
             break;
-          case "beginParagraph":
-            handleChapterParagraphIndent(currentParentNode);
+          case 'paragraph':
+            renderParagraph(currentContainer);
             break;
-          case "endParagraph":
-            handleChapterParagraphBreak(currentParentNode);
-            break;
-          case "beginBlockIndent":
-            const blockIndentContainer = document.createElement('div');
-            blockIndentContainer.setAttribute('class', 'block-indent');
-            currentParentNode = blockIndentContainer;
-            break;
-          case "endBlockIndent":
-            if (currentParentNode !== chapterContainer) {
-              chapterContainer.appendChild(currentParentNode);
-              currentParentNode = chapterContainer;
-              handleChapterParagraphBreak(currentParentNode);
-            }
-            break;
-          case "verse":
-            handleChapterVerse(chapterContentArray[j], currentParentNode);
-            break;
-          default:
+          // Add other content type handlers as needed
         }
-      }
-
-      // Append chapter container to chapter div
-      chapterDiv.appendChild(chapterContainer);
+      });
+      
+      chapterDiv.appendChild(contentDiv);
       sectionDiv.appendChild(chapterDiv);
     }
-  }).catch(err => console.error(err))
+  } catch (error) {
+    console.error('Error fetching book text:', error);
+    const sectionDiv = document.getElementById(section);
+    if (sectionDiv) {
+      sectionDiv.innerHTML = '<p>Error loading content. Please try refreshing.</p>';
+    }
+  }
 };
 
-function renderWatchText(watchArray) {
-  var watchDiv = document.getElementById('watch');
-  var watchMenuH1 = document.getElementById('menu-header-Watch-Title');
-  var numWatches = watchArray.length;
-  for(var i = 0; i < numWatches; i++ ) {
+// Helper functions for rendering content
+const renderVerse = (verse, container) => {
+  const verseContainer = document.createElement('span');
+  verseContainer.setAttribute('class', 'verseContainer');
 
-    //main content
-    var video = document.createElement('div');
-    video.setAttribute('class', 'video');
-    var title = document.createElement('h1');
-    title.textContent = watchArray[i].title;
-    video.appendChild(title);
-    var iframe = document.createElement('iframe');
-    // we get back a direct url instead of an embed url which doesn't work in this context
-    var url = watchArray[i].youtubeUrl.replace('watch?v=','embed/');
-    iframe.setAttribute('src', url + "?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0");
+  // Add verse number
+  const verseNum = document.createElement('sup');
+  verseNum.setAttribute('class', 'verseNum');
+  verseNum.textContent = `  ${verse.verseNum}  `;
+  verseContainer.appendChild(verseNum);
+
+  // Add verse content
+  const textContainer = document.createElement('span');
+  textContainer.setAttribute('class', 'verseTextContainer');
+  
+  verse.content.forEach(chunk => {
+    const span = document.createElement('span');
+    
+    if (chunk.class === 'divine-name') {
+      span.setAttribute('class', 'divineName');
+    } else if (chunk.class === 'indent') {
+      span.setAttribute('class', 'indent');
+      chunk.text = '\t';
+    }
+    
+    span.textContent = chunk.text;
+    textContainer.appendChild(span);
+  });
+
+  verseContainer.appendChild(textContainer);
+  container.appendChild(verseContainer);
+};
+
+const renderParagraph = (container) => {
+  const span = document.createElement('span');
+  span.setAttribute('class', 'paragraphBreak');
+  container.appendChild(span);
+};
+
+// Function to handle navigation
+const jumpTo = async (day) => {
+  if (day > 365) day = 1;
+  if (day < 0) day = 365;
+  if (day % 1 !== 0) day = undefined;
+
+  try {
+    await api.getPlan(day);
+    
+    // Clear existing content
+    const sections = ['read', 'watch', 'pray'].map(id => document.getElementById(id));
+    sections.forEach(section => {
+      if (section) section.innerHTML = '';
+    });
+    
+    const footerNav = document.getElementById('footer-nav');
+    if (footerNav) footerNav.className = '';
+
+    // Update content
+    const watchArray = api.getWatchArray();
+    updateWatchSection(watchArray);
+    
+    await getBookText('read', api.getReadArray());
+    await getBookText('pray', api.getPrayArray());
+
+    // Update bookmark status
+    const bookmark = document.getElementById('bookmark');
+    if (bookmark) {
+      const dayBookmark = localStorage.getItem('daybookmark');
+      bookmark.className = api.getPlanDay() == dayBookmark ? 'active' : '';
+    }
+
+    // Update chapter info
+    await api.getChapter(api.getChapterId());
+    const chapterName = document.getElementById('chapterName');
+    if (chapterName) chapterName.innerHTML = api.getChapterName();
+
+    const dayLongForm = document.getElementById('dayLongForm');
+    if (dayLongForm) dayLongForm.innerHTML = api.getPlanDayLongForm();
+  } catch (error) {
+    console.error('Error in jumpTo:', error);
+  }
+};
+
+// Function to update watch section
+const updateWatchSection = (watchArray) => {
+  const watchContainer = document.getElementById('watch');
+  const watchTitle = document.getElementById('menu-header-Watch-Title');
+  
+  if (!watchContainer || !watchTitle) return;
+
+  watchArray.forEach(item => {
+    const videoDiv = document.createElement('div');
+    videoDiv.setAttribute('class', 'video');
+
+    const title = document.createElement('h1');
+    title.textContent = item.title;
+    videoDiv.appendChild(title);
+
+    const iframe = document.createElement('iframe');
+    const videoUrl = item.youtubeUrl.replace('watch?v=', 'embed/');
+    iframe.setAttribute('src', `${videoUrl}?hl=en&amp;autoplay=0&amp;cc_load_policy=0&amp;loop=0&amp;iv_load_policy=0&amp;fs=1&amp;showinfo=0`);
     iframe.setAttribute('width', '720');
     iframe.setAttribute('height', '480');
-    video.appendChild(iframe);
-    var desc = document.createElement('p');
-    desc.textContent = watchArray[i].watchDesc;
-    video.appendChild(desc);
-    watchDiv.appendChild(video);
+    videoDiv.appendChild(iframe);
 
-    //menu content
-    watchMenuH1.textContent = watchArray[i].title;
-  }
+    const description = document.createElement('p');
+    description.textContent = item.watchDesc;
+    videoDiv.appendChild(description);
 
-  //most days don't have videos
-  var header = document.getElementById('watch-header');
-  var menuHeader = document.getElementById('menu-header-Watch-Title');
-  var menuTitle = document.getElementById('menu-header-Watch');
-  if(numWatches == 0) {
-    header.setAttribute('class','hide');
-    menuHeader.setAttribute('class','hide');
-    menuTitle.setAttribute('class','hide');
-  } else {
-    header.setAttribute('class','');
-    menuHeader.setAttribute('class','');
-    menuTitle.setAttribute('class','');
-  }
-}
+    watchContainer.appendChild(videoDiv);
+    watchTitle.textContent = item.title;
+  });
 
-window.api = (function () {
-    function Api (els) {
-
+  // Update watch header visibility
+  ['watch-header', 'menu-header-Watch-Title', 'menu-header-Watch'].forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.setAttribute('class', watchArray.length === 0 ? 'hide' : '');
     }
-
-    var read = Array();
-    var watch = Array();
-    var pray = Array();
-    var planDay;
-    var planDayLongForm;
-    var chapterId;
-    var chapterName;
-
-    var api = {
-        calculateDayOfYear: function (selector) {
-          var now = new Date();
-      var start = new Date(now.getFullYear(), 0, 0);
-      var diff = now - start;
-      var oneDay = 1000 * 60 * 60 * 24;
-      var day = Math.floor(diff / oneDay);
-      return day;
-        },
-
-        getChapter: function (chapterId) {
-          var url  = 'https://readscripture-api.herokuapp.com/api/v1/chapters/' + chapterId;
-        return fetch(url)
-        .then(res => res.json())
-        .then(chapterJSON => {
-          chapterName = chapterJSON.title;
-        }
-        ).catch(err => console.error(err))
-        },
-
-        getPlan: function (specificDay) {
-
-          var day = this.calculateDayOfYear();
-          if(specificDay) {
-            day = specificDay;
-          }
-          planDay = day;
-
-          var url  = 'https://readscripture-api.herokuapp.com/api/v1/days/' + day;
-        return fetch(url)
-        .then(res => res.json())
-        .then(daysJSON => {
-          read = Array();
-            watch = Array();
-            pray = Array();
-          var numNodes = daysJSON.dayContents.length;
-          planDayLongForm = 'Reading for ' + daysJSON.date;
-          chapterId = daysJSON.chapterId;
-
-          for (var i = 0; i < numNodes; i++) {
-            var node = daysJSON.dayContents[i];
-            switch(node.type) {
-              case "read":
-                read = node.passage;
-                document.getElementById('menu-header-Read-Title').textContent = node.passage;
-              break;
-              case "watch":
-                watch.push(node);
-                document.getElementById('menu-header-Watch').textContent = "Watch";
-                document.getElementById('menu-header-Watch-Title').textContent = node.passage;
-                break;
-              break;
-              case "pray":
-                pray = node.passage;
-                document.getElementById('menu-header-Pray-Title').textContent = node.passage;
-              break;
-
-              default:
-            }
-          }
-        }).catch(err => console.error(err))
-          },
-
-        getReadArray: function (selector) {
-          return read;
-        },
-        getPrayArray: function (selector) {
-          return pray;
-        },
-        getWatchArray: function (selector) {
-          return watch;
-        },
-        getPlanDay: function (selector) {
-          return Number(planDay);
-        },
-        getPlanDayLongForm: function (selector) {
-          return planDayLongForm;
-        },
-        getChapterName: function (selector) {
-          return chapterName;
-        },
-        getChapterId: function (selector) {
-          return chapterId;
-        }
-    };
-
-    return api;
-}());
-
-function jumpTo(day) {
-
-  if (day > 365) {
-    day = 1;
-  } else if (day < 0) {
-    day = 365;
-  } else if (day % 1 !== 0) {
-  	day = undefined;
-  }
-  api.getPlan(day)
-    .then(() => {
-      document.getElementById('read').innerHTML = '';
-      document.getElementById('watch').innerHTML = '';
-      document.getElementById('pray').innerHTML = '';
-      // document.getElementById('menu-item-watch').innerHTML = '';
-      var footerNav = document.getElementById("footer-nav");
-      footerNav.className = ""
-    }
-      )
-    .then(() => {
-      renderWatchText(api.getWatchArray());
-      getBookText('read', api.getReadArray());
-      getBookText('pray', api.getPrayArray());
-      var bookmark = document.getElementById("bookmark");
-      if (api.getPlanDay() == localStorage[DAYBOOKMARK]) {
-      	bookmark.className = 'active';
-      } else {
-      	bookmark.className = '';
-      }
-      api.getChapter(api.getChapterId())
-      .then(() => {
-        document.getElementById('chapterName').innerHTML = api.getChapterName();
-      });;
-      document.getElementById('dayLongForm').innerHTML = api.getPlanDayLongForm();
-    })
-}
-
-
-function showFooter () {
-  var footerNav = document.getElementById("footer-nav");
-  var y = window.scrollY;
-  var contentHeight = document.getElementsByTagName('body')[0].clientHeight;
-  var windowHeight = window.innerHeight;
-
-  if (y >= (contentHeight - windowHeight)) {
-    footerNav.className = "show"
-  } else {
-    footerNav.className = ""
-  }
+  });
 };
 
-function hideDate() {
-  var date = document.getElementById("date");
-  var y = window.scrollY;
-  if (y >= 16) {
-    date.style.opacity = '1' - y / 40;
-  } else {
-    date.style.opacity = '1';
-  }
-};
+// Initialize the app when DOM is ready
+function initializeApp() {
+  const today = api.calculateDayOfYear();
+  jumpTo(today);
 
-/****** load page ******/
+  // Add event listeners with null checks
+  const elements = {
+    previous: document.getElementById('picker-previous'),
+    next: document.getElementById('picker-next'),
+    header: document.getElementById('header'),
+    logo: document.getElementById('logo'),
+    footerNav: document.getElementById('footer-nav'),
+    bookmark: document.getElementById('bookmark'),
+    menu: document.getElementById('menu'),
+    date: document.getElementById('date')
+  };
 
-const DAYBOOKMARK = 'daybookmark';
+  // Add event listeners only if elements exist
+  Object.entries(elements).forEach(([key, element]) => {
+    if (!element) return;
 
-jumpTo(localStorage[DAYBOOKMARK]);
-
-/****** event listeners ******/
-document.addEventListener('DOMContentLoaded', function() {
-    var previous = document.getElementById('picker-previous');
-    var next = document.getElementById('picker-next');
-    var header = document.getElementById('header');
-    var logo = document.getElementById('logo');
-    var footerNav = document.getElementById("footer-nav");
-    var bookmark = document.getElementById("bookmark");
-
-    previous.addEventListener('click', function() {
-      jumpTo(api.getPlanDay() - 1);
-      header.className = '';
-      window.scroll({
-       top: 0,
-       left: 0,
-       behavior: 'smooth'
-      });
-    });
-
-    next.addEventListener('click', function() {
-        jumpTo(api.getPlanDay() + 1);
-        header.className = '';
-        window.scroll({
-         top: 0,
-         left: 0,
-         behavior: 'smooth'
+    switch (key) {
+      case 'previous':
+        element.addEventListener('click', () => {
+          jumpTo(api.getPlanDay() - 1);
+          if (elements.header) elements.header.className = '';
+          window.scroll({ top: 0, left: 0, behavior: 'smooth' });
         });
-    });
+        break;
+      case 'next':
+        element.addEventListener('click', () => {
+          jumpTo(api.getPlanDay() + 1);
+          if (elements.header) elements.header.className = '';
+          window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+        });
+        break;
+      // Add other event listeners as needed
+    }
+  });
 
-    bookmark.addEventListener('click', function() {
-        if (bookmark.className == 'active') {
-        	bookmark.className = '';
-        	localStorage.removeItem(DAYBOOKMARK);
-        } else {
-        	bookmark.className = 'active';
-        	localStorage[DAYBOOKMARK] = api.getPlanDay();
-        }
-    });
+  // Add scroll handlers
+  window.addEventListener('scroll', () => {
+    if (elements.footerNav) {
+      elements.footerNav.className = window.scrollY >= document.body.clientHeight - window.innerHeight ? 'show' : '';
+    }
+    if (elements.date) {
+      elements.date.style.opacity = window.scrollY >= 16 ? `${1 - window.scrollY/40}` : '1';
+    }
+  });
+}
 
-    logo.addEventListener('click', function() {
-        if (header.className == 'hover') {
-            header.className = '';
-        } else {
-            header.className = 'hover';
-            footerNav.className = "";
-        }
-    });
-    var menu = document.getElementById('menu');
-    menu.addEventListener('click', function() {
-        header.className = '';
-    });
-    window.addEventListener("scroll", showFooter);
-    window.addEventListener("scroll", hideDate);
-});
+// Initialize only when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  initializeApp();
+}
