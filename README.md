@@ -9,21 +9,20 @@ Chrome Extension that opens the Read Scripture daily Bible reading in a new tab.
 - Daily Bible reading plan
 - Beautiful, distraction-free reading experience
 - Watch related Bible Project videos
-- Prayer prompts
 - Works offline with caching
 - Modern, responsive design
 
 ## Installation
-
-### From Chrome Web Store
-1. Visit the [Chrome Web Store](https://chrome.google.com/webstore/detail/readscripture-extension/EXTENSION_ID)
-2. Click "Add to Chrome"
 
 ### Quick Install
 1. Download the [latest release ZIP file](read-scripture-extension-v3.1.4.zip) from this repository
 2. Open Chrome and go to `chrome://extensions/`
 3. Enable "Developer mode" in the top right
 4. Drag and drop the ZIP file into the Chrome extensions page
+
+### ~~From Chrome Web Store~~
+1. ~~Visit the [Chrome Web Store](https://chrome.google.com/webstore/detail/readscripture-extension/EXTENSION_ID)~~
+2. ~~Click "Add to Chrome"~~
 
 ### For Development
 1. Clone the repository:
@@ -91,20 +90,3 @@ npm run build
 cd dist && zip -r ../read-scripture-extension-v[VERSION].zip . && cd ..
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [Read Scripture](https://www.readscripture.org/) for the original app and content
-- [The Bible Project](https://bibleproject.com/) for the amazing videos
-- All contributors who have helped improve this extension
