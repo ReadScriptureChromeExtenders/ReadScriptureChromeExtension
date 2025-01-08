@@ -10,7 +10,7 @@ const showError = (message, containerId = 'read') => {
     
     // Create error content
     const heading = document.createElement('h3');
-    heading.textContent = '⚠️ Something went wrong';
+    heading.textContent = 'Something went wrong';
     
     const text = document.createElement('p');
     text.textContent = message;
