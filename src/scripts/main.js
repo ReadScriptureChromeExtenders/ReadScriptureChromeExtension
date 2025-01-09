@@ -2,6 +2,24 @@ import { scriptureApi } from './api/scripture-api.js';
 import { scriptureRenderer } from './components/scripture-renderer.js';
 import { stateManager } from './utils/state-manager.js';
 
+// Hide all section headers initially
+const hideSectionHeaders = () => {
+  ['watch-header', 'read-header', 'pray-header'].forEach(id => {
+    const header = document.getElementById(id);
+    if (header) {
+      header.classList.add('hide');
+    }
+  });
+};
+
+// Show a specific section header
+const showSectionHeader = (sectionId) => {
+  const header = document.getElementById(`${sectionId}-header`);
+  if (header) {
+    header.classList.remove('hide');
+  }
+};
+
 const showError = (message, containerId = 'read') => {
   const container = document.getElementById(containerId);
   if (container) {
@@ -10,7 +28,7 @@ const showError = (message, containerId = 'read') => {
     
     // Create error content
     const heading = document.createElement('h3');
-    heading.textContent = 'Something went wrong';
+    heading.textContent = '⚠️ Something went wrong';
     
     const text = document.createElement('p');
     text.textContent = message;
@@ -43,6 +61,9 @@ const getBookText = async (section, passage) => {
     
     const sectionDiv = document.getElementById(section);
     if (!sectionDiv) return;
+
+    // Show the section header since we have content
+    showSectionHeader(section);
 
     // Create chapter range header
     const chapterRange = document.createElement('h1');
@@ -87,6 +108,9 @@ const jumpTo = async (day) => {
   const validDay = Math.min(Math.max(1, Math.floor(day) || 1), 365);
   
   try {
+    // Hide all section headers before loading new content
+    hideSectionHeaders();
+
     const planData = await scriptureApi.getPlan(validDay);
     stateManager.setPlanData(planData);
     
@@ -100,7 +124,11 @@ const jumpTo = async (day) => {
     if (footerNav) footerNav.className = '';
 
     // Update content
-    scriptureRenderer.renderWatchSection(stateManager.getWatchArray());
+    const watchArray = stateManager.getWatchArray();
+    if (watchArray.length > 0) {
+      showSectionHeader('watch');
+      scriptureRenderer.renderWatchSection(watchArray);
+    }
     
     await getBookText('read', stateManager.getReadArray());
     await getBookText('pray', stateManager.getPrayArray());
@@ -128,6 +156,9 @@ const jumpTo = async (day) => {
 
 // Initialize the app when DOM is ready
 function initializeApp() {
+  // Hide all section headers initially
+  hideSectionHeaders();
+
   const today = scriptureApi.calculateDayOfYear();
   jumpTo(today);
 
